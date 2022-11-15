@@ -1,0 +1,33 @@
+body {
+  button {
+    border-radius: 3rem;
+    border: 0;
+    color: white;
+    background-color: rgb(62, 198, 153);
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgb(32, 129, 96);
+    }
+  }
+
+  #difficulty-container {
+    #easy-level-btn,
+    #medium-level-btn,
+    #hard-level-btn,
+    #select-difficulty {
+      display: none;
+    }
+  }
+  #rules-container {
+    display: none;
+    background-color: rgb(62, 198, 153);
+    width: fit-content;
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 3rem;
+    color: white;
+  }
+}

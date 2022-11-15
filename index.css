@@ -1,0 +1,29 @@
+body button {
+  border-radius: 3rem;
+  border: 0;
+  color: white;
+  background-color: rgb(62, 198, 153);
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+body button:hover {
+  background-color: rgb(32, 129, 96);
+}
+body #difficulty-container #easy-level-btn,
+body #difficulty-container #medium-level-btn,
+body #difficulty-container #hard-level-btn,
+body #difficulty-container #select-difficulty {
+  display: none;
+}
+body #rules-container {
+  display: none;
+  background-color: rgb(62, 198, 153);
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 1rem;
+  margin: 1rem;
+  border-radius: 3rem;
+  color: white;
+}/*# sourceMappingURL=index.css.map */

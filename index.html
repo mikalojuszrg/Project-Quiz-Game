@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
+    <script defer src="index.js"></script>
+    <title>Quiz game</title>
+  </head>
+  <body>
+    <h1>Welcome to the quiz game!</h1>
+
+    <button type="button" id="rules-btn">Rules</button>
+    <button type="button" id="new-game-btn">New game</button>
+    <button type="button" id="score-btn">Scoreboard</button>
+
+    <div id="difficulty-container">
+      <p id="select-difficulty">Select a difficulty</p>
+      <button type="button" id="easy-level-btn">Easy</button>
+      <button type="button" id="medium-level-btn">Medium</button>
+      <button type="button" id="hard-level-btn">Hard</button>
+    </div>
+
+    <div id="rules-container">
+      <p>1. Select a difficulty - easy, medium, or hard</p>
+      <p>2. Answer 10 questions (30 sec for each question)</p>
+      <p>3. Reach the top of the scoreboard</p>
+    </div>
+
+    <div id="score-container"></div>
+
+    <div id="game-container"></div>
+
+    <div id="time-div"></div>
+  </body>
+</html>

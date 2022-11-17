@@ -26,4 +26,7 @@ body #rules-container {
   margin: 1rem;
   border-radius: 3rem;
   color: white;
+}
+body #reg-container #score-form {
+  display: none;
 }/*# sourceMappingURL=index.css.map */

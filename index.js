@@ -11,6 +11,11 @@ const difficultyContainer = document.querySelector("#difficulty-container");
 const rulesContainer = document.querySelector("#rules-container");
 const scoreContainer = document.querySelector("#score-container");
 const gameContainer = document.querySelector("#game-container");
+const regContainer = document.querySelector("#reg-container");
+
+const scoreForm = document.querySelector("#score-form");
+const userScoreInfo = document.querySelector("#user-score-info");
+
 let index = 0;
 const correctAnswersArr =
   JSON.parse(localStorage.getItem("Incorrect answers ")) || [];
@@ -66,17 +71,19 @@ const gethardQuestions = () => {
 };
 
 const setTimer = (elem) => {
-  let timeLeft = 30;
-  let timerId = setInterval(countdown, 1000);
+  let timeLeft = 10;
+  let timerId = setInterval(countdown, 500);
 
   function countdown() {
     if (timeLeft === -1) {
-      clearTimeout(timerId);
+      clearInterval(timerId);
+      console.log("DONE");
     } else {
       elem.innerHTML = `Time left: ${timeLeft}`;
       timeLeft--;
     }
   }
+  countdown();
 };
 
 displayRulesBtn.addEventListener("click", () => {
@@ -97,12 +104,14 @@ newGameBtn.addEventListener("click", () => {
   mediumLevelBtn.style.display = "block";
   hardLevelBtn.style.display = "block";
   difficultyText.style.display = "block";
+  localStorage.clear();
 });
 
 displayScoreBtn.addEventListener("click", () => {
   if (rulesContainer.style.display === "block") {
     rulesContainer.style.display = "none";
   }
+  getEasyQuestions();
 });
 
 const playEasyGame = () => {
@@ -133,7 +142,71 @@ hardLevelBtn.addEventListener("click", () => {
   difficultyContainer.style.display = "none";
 });
 
+const getNextQuestion = (obj) => {
+  if (obj.difficulty === "medium") {
+    setTimeout(() => {
+      getMediumQuestions();
+    }, "2000");
+  } else if (obj.difficulty === "hard") {
+    setTimeout(() => {
+      gethardQuestions();
+    }, "2000");
+  } else {
+    setTimeout(() => {
+      getEasyQuestions();
+    }, "2000");
+  }
+};
+
+const showUserScore = () => {
+  let answersTotal = correctAnswersArr.length;
+  const levelArr = JSON.parse(localStorage.getItem("level"));
+  userScoreInfo.textContent = `you've scored ${answersTotal} out of 10. Level: ${levelArr}`;
+};
+
+const endGame = (elem) => {
+  if (elem > 10) {
+    gameContainer.style.display = "none";
+    showUserScore();
+    scoreForm.style.display = "block";
+  }
+};
+
+scoreForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  saveScore();
+});
+
+const saveScore = () => {
+  fetch("https://testapi.io/api/mikalojuszrg/resource/quiz", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username: scoreForm[0].value,
+      score: correctAnswersArr.length,
+      level: JSON.parse(localStorage.getItem("level")),
+    }),
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+    })
+    .then((data) => {
+      console.log(data);
+    });
+};
+
+// const displayForm = () => {
+//   scoreForm.style.display = "block";
+// };
+
 const renderQuestions = (questions) => {
+  // let qArr = [];
+  // qArr.push(questions);
+  // console.log(qArr);
   const randomNumber = Math.floor(Math.random() * 2);
   console.log(randomNumber);
 
@@ -143,6 +216,8 @@ const renderQuestions = (questions) => {
   setTimer(timer);
 
   index += 1;
+  endGame(index);
+  localStorage.setItem("level", JSON.stringify(questions.difficulty));
   gameContainer.innerHTML = "";
   const questionDiv = document.createElement("div");
   questionDiv.style.width = "400px";
@@ -154,12 +229,12 @@ const renderQuestions = (questions) => {
   questionTitle.style.marginRight = "10px";
   questionTitle.textContent = questions.question;
 
-  const nextQuestionBtn = document.createElement("button");
-  nextQuestionBtn.textContent = "Next question";
+  // const nextQuestionBtn = document.createElement("button");
+  // nextQuestionBtn.textContent = "Next question";
 
-  nextQuestionBtn.addEventListener("click", () => {
-    getMediumQuestions();
-  });
+  // nextQuestionBtn.addEventListener("click", () => {
+  //   getMediumQuestions();
+  // });
 
   const questionIndexText = document.createElement("p");
   questionIndexText.textContent = `Question number: ${index}`;
@@ -172,10 +247,18 @@ const renderQuestions = (questions) => {
 
   correctAnswerBtn.addEventListener("click", () => {
     correctAnswerBtn.style.backgroundColor = "green";
+    incorrectAnswer1.style.visibility = "hidden";
+    incorrectAnswer2.style.visibility = "hidden";
+    incorrectAnswer3.style.visibility = "hidden";
     incorrectAnswer1.disabled = true;
     incorrectAnswer2.disabled = true;
     incorrectAnswer3.disabled = true;
-    getMediumQuestions();
+    correctAnswerBtn.style.pointerEvents = "none";
+    incorrectAnswer1.style.pointerEvents = "none";
+    incorrectAnswer2.style.pointerEvents = "none";
+    incorrectAnswer3.style.pointerEvents = "none";
+    getNextQuestion(questions);
+    timer.style.visibility = "hidden";
     correctAnswersArr.push("Correct" + index);
     localStorage.setItem("Correct answers", JSON.stringify(correctAnswersArr));
   });
@@ -191,7 +274,12 @@ const renderQuestions = (questions) => {
     correctAnswerBtn.disabled = true;
     incorrectAnswer2.disabled = true;
     incorrectAnswer3.disabled = true;
-    getMediumQuestions();
+    correctAnswerBtn.style.pointerEvents = "none";
+    incorrectAnswer1.style.pointerEvents = "none";
+    incorrectAnswer2.style.pointerEvents = "none";
+    incorrectAnswer3.style.pointerEvents = "none";
+    getNextQuestion(questions);
+    timer.style.visibility = "hidden";
     incorrectAnswersArr.push("Incorrect" + index);
     localStorage.setItem(
       "Incorrect answers",
@@ -210,7 +298,12 @@ const renderQuestions = (questions) => {
     correctAnswerBtn.disabled = true;
     incorrectAnswer1.disabled = true;
     incorrectAnswer3.disabled = true;
-    getMediumQuestions();
+    correctAnswerBtn.style.pointerEvents = "none";
+    incorrectAnswer2.style.pointerEvents = "none";
+    incorrectAnswer1.style.pointerEvents = "none";
+    incorrectAnswer3.style.pointerEvents = "none";
+    timer.style.visibility = "hidden";
+    getNextQuestion(questions);
     incorrectAnswersArr.push("Incorrect" + index);
     localStorage.setItem(
       "Incorrect answers",
@@ -227,9 +320,15 @@ const renderQuestions = (questions) => {
   incorrectAnswer3.addEventListener("click", () => {
     incorrectAnswer3.style.backgroundColor = "red";
     correctAnswerBtn.disabled = true;
-    incorrectAnswer2.disabled = true;
     incorrectAnswer1.disabled = true;
-    getMediumQuestions();
+    incorrectAnswer2.disabled = true;
+    incorrectAnswer3.style.pointerEvents = "none";
+    correctAnswerBtn.style.pointerEvents = "none";
+    incorrectAnswer1.style.pointerEvents = "none";
+    incorrectAnswer2.style.pointerEvents = "none";
+
+    getNextQuestion(questions);
+    timer.style.visibility = "hidden";
     incorrectAnswersArr.push("Incorrect" + index);
     localStorage.setItem(
       "Incorrect answers",
@@ -238,7 +337,7 @@ const renderQuestions = (questions) => {
   });
 
   questionDiv.appendChild(timer);
-  questionDiv.appendChild(nextQuestionBtn);
+  // questionDiv.appendChild(nextQuestionBtn);
   questionDiv.appendChild(questionIndexText);
   questionDiv.appendChild(questionTitle);
   // const b = questionDiv.appendChild(incorrectAnswer1);
@@ -268,3 +367,39 @@ const renderQuestions = (questions) => {
     console.log(obj);
   });
 };
+
+const getData = () => {
+  fetch("https://testapi.io/api/mikalojuszrg/resource/quiz", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+    })
+    .then((data) => {
+      const easyScores = data.data.filter((obj) => obj.level === "easy");
+      const mediumScores = data.data.filter((obj) => obj.level === "medium");
+      const hardScores = data.data.filter((obj) => obj.level === "hard");
+
+      const easyScoresSorted = easyScores.sort((a, b) => b.score - a.score);
+      const mediumScoresSorted = mediumScores.sort((a, b) => b.score - a.score);
+      const hardScoresSorted = mediumScores.sort((a, b) => b.score - a.score);
+      scoreContainer.textContent = JSON.stringify(mediumScoresSorted);
+      console.log(mediumScoresSorted);
+      console.log(mediumScores);
+      // mediumLeaderbord = mediumScoresSorted.map(
+      //   ({ username, score }) => mediumScoresSorted.username,
+      //   mediumScoresSorted.score
+      // );
+      mediumLeaderbord = mediumScoresSorted.map(({ score }) => score);
+      console.log(mediumLeaderbord);
+      // let result = objArray.map(({ foo }) => foo);
+      // const planetSorted = planets.sort((a,b) => a.name.length - b.name.length); // sixth task
+    });
+};
+
+getData();

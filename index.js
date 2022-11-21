@@ -21,6 +21,7 @@ const correctAnswersArr =
   JSON.parse(localStorage.getItem("Incorrect answers ")) || [];
 const incorrectAnswersArr =
   JSON.parse(localStorage.getItem("Correct answers ")) || [];
+const questionsArr = JSON.parse(localStorage.getItem("Questions ")) || [];
 
 const getEasyQuestions = () => {
   fetch(
@@ -31,7 +32,8 @@ const getEasyQuestions = () => {
     })
     .then((data) => {
       renderQuestions(data.results[index]);
-      console.log(data.results[0]);
+      // if (data.results[index].question === data.results[index].question)
+      console.log(data.results);
     })
     .catch((err) => {
       console.error(err);
@@ -46,8 +48,7 @@ const getMediumQuestions = () => {
       return res.json();
     })
     .then((data) => {
-      renderQuestions(data.results[0]);
-      console.log(data.results[0]);
+      renderQuestions(data.results[index]);
     })
     .catch((err) => {
       console.error(err);
@@ -62,22 +63,32 @@ const gethardQuestions = () => {
       return res.json();
     })
     .then((data) => {
-      renderQuestions(data.results[0]);
-      console.log(data.results[0]);
+      renderQuestions(data.results[index]);
+      console.log(data.results);
     })
     .catch((err) => {
       console.error(err);
     });
 };
 
+const changeCharacters = (string) => {
+  JSON.stringify(string)
+    .replaceAll("&quot;", "")
+    .replaceAll("&#039;", "'")
+    .replaceAll("&ldquo;", "")
+    .replaceAll("&rsquo;", "'")
+    .replaceAll("&aacute;", "a")
+    .replaceAll("&iacute;", "i")
+    .replaceAll(".&rdquo;", "s");
+};
+
 const setTimer = (elem) => {
   let timeLeft = 10;
-  let timerId = setInterval(countdown, 500);
+  let timerId = setInterval(countdown, 1000);
 
   function countdown() {
     if (timeLeft === -1) {
       clearInterval(timerId);
-      console.log("DONE");
     } else {
       elem.innerHTML = `Time left: ${timeLeft}`;
       timeLeft--;
@@ -108,37 +119,26 @@ newGameBtn.addEventListener("click", () => {
 });
 
 displayScoreBtn.addEventListener("click", () => {
-  if (rulesContainer.style.display === "block") {
-    rulesContainer.style.display = "none";
+  if (scoreContainer.style.display === "block") {
+    scoreContainer.style.display = "none";
+  } else {
+    scoreContainer.style.display = "block";
   }
-  getEasyQuestions();
+  getData();
 });
-
-const playEasyGame = () => {
-  getEasyQuestions();
-};
 
 easyLevelBtn.addEventListener("click", () => {
-  playEasyGame();
+  getEasyQuestions();
   difficultyContainer.style.display = "none";
 });
-
-const playMediumGame = () => {
-  getMediumQuestions();
-};
 
 mediumLevelBtn.addEventListener("click", () => {
-  playMediumGame();
-  console.log("medium btn");
+  getMediumQuestions();
   difficultyContainer.style.display = "none";
 });
 
-const playHardGame = () => {
-  gethardQuestions();
-};
-
 hardLevelBtn.addEventListener("click", () => {
-  playHardGame();
+  gethardQuestions();
   difficultyContainer.style.display = "none";
 });
 
@@ -175,6 +175,8 @@ const endGame = (elem) => {
 scoreForm.addEventListener("submit", (event) => {
   event.preventDefault();
   saveScore();
+  getData();
+  regContainer.style.display = "none";
 });
 
 const saveScore = () => {
@@ -199,25 +201,18 @@ const saveScore = () => {
     });
 };
 
-// const displayForm = () => {
-//   scoreForm.style.display = "block";
-// };
-
 const renderQuestions = (questions) => {
-  // let qArr = [];
-  // qArr.push(questions);
-  // console.log(qArr);
   const randomNumber = Math.floor(Math.random() * 2);
-  console.log(randomNumber);
-
-  console.log(questions);
-
   const timer = document.createElement("p");
   setTimer(timer);
 
   index += 1;
   endGame(index);
   localStorage.setItem("level", JSON.stringify(questions.difficulty));
+  questionsArr.push(questions.question);
+  localStorage.setItem("question", JSON.stringify(questionsArr));
+
+  const test = localStorage.getItem("level");
   gameContainer.innerHTML = "";
   const questionDiv = document.createElement("div");
   questionDiv.style.width = "400px";
@@ -227,14 +222,17 @@ const renderQuestions = (questions) => {
   const questionTitle = document.createElement("h2");
   questionTitle.style.margin = "0";
   questionTitle.style.marginRight = "10px";
-  questionTitle.textContent = questions.question;
+  questionTitle.textContent = questions.question
+    .replaceAll("&quot;", "")
+    .replaceAll("&#039;", "'")
+    .replaceAll("&ldquo;", "")
+    .replaceAll("&rsquo;", "'")
+    .replaceAll("&aacute;", "a")
+    .replaceAll("&iacute;", "i")
+    .replaceAll(".&rdquo;", "s")
+    .replaceAll("&shy;", "");
 
-  // const nextQuestionBtn = document.createElement("button");
-  // nextQuestionBtn.textContent = "Next question";
-
-  // nextQuestionBtn.addEventListener("click", () => {
-  //   getMediumQuestions();
-  // });
+  console.log(questions.question);
 
   const questionIndexText = document.createElement("p");
   questionIndexText.textContent = `Question number: ${index}`;
@@ -243,7 +241,9 @@ const renderQuestions = (questions) => {
   correctAnswerBtn.style.backgroundColor = "blue";
   correctAnswerBtn.style.marginRight = "10px";
   correctAnswerBtn.setAttribute("id", (id = 1));
-  correctAnswerBtn.textContent = questions.correct_answer;
+  correctAnswerBtn.textContent = questions.correct_answer
+    .replaceAll("&quot;", "")
+    .replaceAll("&#039;", "'");
 
   correctAnswerBtn.addEventListener("click", () => {
     correctAnswerBtn.style.backgroundColor = "green";
@@ -267,7 +267,9 @@ const renderQuestions = (questions) => {
   incorrectAnswer1.style.backgroundColor = "blue";
   incorrectAnswer1.style.marginRight = "10px";
   incorrectAnswer1.setAttribute("id", (id = 2));
-  incorrectAnswer1.textContent = questions.incorrect_answers[0];
+  incorrectAnswer1.textContent = questions.incorrect_answers[0]
+    .replaceAll("&quot;", "")
+    .replaceAll("&#039;", "'");
 
   incorrectAnswer1.addEventListener("click", () => {
     incorrectAnswer1.style.backgroundColor = "red";
@@ -291,7 +293,9 @@ const renderQuestions = (questions) => {
   incorrectAnswer2.style.backgroundColor = "blue";
   incorrectAnswer2.style.marginRight = "10px";
   incorrectAnswer2.setAttribute("id", (id = 3));
-  incorrectAnswer2.textContent = questions.incorrect_answers[1];
+  incorrectAnswer2.textContent = questions.incorrect_answers[1]
+    .replaceAll("&quot;", "")
+    .replaceAll("&#039;", "'");
 
   incorrectAnswer2.addEventListener("click", () => {
     incorrectAnswer2.style.backgroundColor = "red";
@@ -315,7 +319,9 @@ const renderQuestions = (questions) => {
   incorrectAnswer3.style.backgroundColor = "blue";
   incorrectAnswer3.style.marginRight = "10px";
   incorrectAnswer3.setAttribute("id", (id = 4));
-  incorrectAnswer3.textContent = questions.incorrect_answers[2];
+  incorrectAnswer3.textContent = questions.incorrect_answers[2]
+    .replaceAll("&quot;", "")
+    .replaceAll("&#039;", "'");
 
   incorrectAnswer3.addEventListener("click", () => {
     incorrectAnswer3.style.backgroundColor = "red";
@@ -340,10 +346,6 @@ const renderQuestions = (questions) => {
   // questionDiv.appendChild(nextQuestionBtn);
   questionDiv.appendChild(questionIndexText);
   questionDiv.appendChild(questionTitle);
-  // const b = questionDiv.appendChild(incorrectAnswer1);
-  // const a = questionDiv.appendChild(correctAnswerBtn);
-  // const c = questionDiv.appendChild(incorrectAnswer2);
-  // const d = questionDiv.appendChild(incorrectAnswer3);
   gameContainer.append(questionDiv);
 
   const div = document.createElement("div");
@@ -381,25 +383,57 @@ const getData = () => {
       }
     })
     .then((data) => {
-      const easyScores = data.data.filter((obj) => obj.level === "easy");
-      const mediumScores = data.data.filter((obj) => obj.level === "medium");
-      const hardScores = data.data.filter((obj) => obj.level === "hard");
+      const easyLeaderbord = data.data
+        .filter((obj) => obj.level === "easy")
+        .sort((a, b) => b.score - a.score)
+        .map((value) => {
+          return { username: value.username, score: value.score };
+        });
+      const mediumLeaderbord = data.data
+        .filter((obj) => obj.level === "medium")
+        .sort((a, b) => b.score - a.score)
+        .map((value) => {
+          return { username: value.username, score: value.score };
+        });
+      const hardLeaderbord = data.data
+        .filter((obj) => obj.level === "hard")
+        .sort((a, b) => b.score - a.score)
+        .map((value) => {
+          return { username: value.username, score: value.score };
+        });
 
-      const easyScoresSorted = easyScores.sort((a, b) => b.score - a.score);
-      const mediumScoresSorted = mediumScores.sort((a, b) => b.score - a.score);
-      const hardScoresSorted = mediumScores.sort((a, b) => b.score - a.score);
-      scoreContainer.textContent = JSON.stringify(mediumScoresSorted);
-      console.log(mediumScoresSorted);
-      console.log(mediumScores);
-      // mediumLeaderbord = mediumScoresSorted.map(
-      //   ({ username, score }) => mediumScoresSorted.username,
-      //   mediumScoresSorted.score
-      // );
-      mediumLeaderbord = mediumScoresSorted.map(({ score }) => score);
-      console.log(mediumLeaderbord);
-      // let result = objArray.map(({ foo }) => foo);
-      // const planetSorted = planets.sort((a,b) => a.name.length - b.name.length); // sixth task
+      const mediumTop = mediumLeaderbord.splice(0, 10); // TOP 10
+      const easyTop = easyLeaderbord.splice(0, 10);
+      const hardTop = hardLeaderbord.splice(0, 10);
+
+      scoreContainer.style.display = "block";
+      scoreContainer.innerHTML = "";
+
+      if (JSON.parse(localStorage.getItem("level")) === "easy") {
+        scoreContainer.append(makeOl(easyTop));
+      } else if (JSON.parse(localStorage.getItem("level")) === "medium") {
+        scoreContainer.append(makeOl(mediumTop));
+      } else if (JSON.parse(localStorage.getItem("level")) === "hard") {
+        scoreContainer.append(makeOl(hardTop));
+      } else {
+        scoreContainer.append(makeOl(easyTop));
+        scoreContainer.append(makeOl(mediumTop));
+        scoreContainer.append(makeOl(hardTop));
+      }
     });
 };
 
-getData();
+const makeOl = (array) => {
+  let list = document.createElement("ol");
+  for (let i = 0; i < array.length; i++) {
+    let item = document.createElement("li");
+    item.appendChild(
+      document.createTextNode(
+        `${JSON.stringify(array[i].username).replaceAll('"', "")} - 
+          ${JSON.stringify(array[i].score)} correct answers`
+      )
+    );
+    list.appendChild(item);
+  }
+  return list;
+};

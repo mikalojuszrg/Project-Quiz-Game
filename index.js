@@ -33,7 +33,6 @@ const getEasyQuestions = () => {
     .then((data) => {
       renderQuestions(data.results[index]);
       // if (data.results[index].question === data.results[index].question)
-      console.log(data.results);
     })
     .catch((err) => {
       console.error(err);
@@ -87,14 +86,24 @@ const setTimer = (elem) => {
   let timerId = setInterval(countdown, 1000);
 
   function countdown() {
-    if (timeLeft === -1) {
+    if (timeLeft === 0) {
+      // document.body.append(a);
+      // a.textContent = "asdaskdaksndkasnkdsa";
+      // a.style.display = "block";
       clearInterval(timerId);
+      elem.textContent = "You've run out of time";
+      // document.body.style.pointerEvents = "none";
+      // document.getElementById("1").style.pointerEvents = "none";
+      // document.getElementById("2").style.pointerEvents = "none";
+      // document.getElementById("3").style.pointerEvents = "none";
+      // document.getElementById("4").style.pointerEvents = "none";
     } else {
-      elem.innerHTML = `Time left: ${timeLeft}`;
+      elem.textContent = `Time left: ${timeLeft}`;
       timeLeft--;
     }
   }
   countdown();
+  console.log(timeLeft);
 };
 
 displayRulesBtn.addEventListener("click", () => {
@@ -123,8 +132,8 @@ displayScoreBtn.addEventListener("click", () => {
     scoreContainer.style.display = "none";
   } else {
     scoreContainer.style.display = "block";
+    getData();
   }
-  getData();
 });
 
 easyLevelBtn.addEventListener("click", () => {
@@ -158,16 +167,16 @@ const getNextQuestion = (obj) => {
   }
 };
 
-const showUserScore = () => {
+const showUserScore = (elem) => {
   let answersTotal = correctAnswersArr.length;
   const levelArr = JSON.parse(localStorage.getItem("level"));
-  userScoreInfo.textContent = `you've scored ${answersTotal} out of 10. Level: ${levelArr}`;
+  elem.textContent = `you've scored ${answersTotal} out of 10. Level: ${levelArr}`;
 };
 
 const endGame = (elem) => {
-  if (elem > 10) {
+  if (elem >= 11) {
     gameContainer.style.display = "none";
-    showUserScore();
+    showUserScore(userScoreInfo);
     scoreForm.style.display = "block";
   }
 };
@@ -201,16 +210,47 @@ const saveScore = () => {
     });
 };
 
+// if (a === "asdaskdaksndkasnkdsa") {
+//   document.getElementById("1").style.backgroundColor = "green";
+// }
+// console.log(a);
+
 const renderQuestions = (questions) => {
   const randomNumber = Math.floor(Math.random() * 2);
   const timer = document.createElement("p");
-  setTimer(timer);
+  const userScore = document.createElement("p");
+  showUserScore(userScore);
+  const nextQ = document.createElement("button");
+  nextQ.textContent = "Next question";
+  nextQ.addEventListener("click", () => {
+    getNextQuestion(questions);
+  });
+  // nextQ.style.display = "none";
 
+  setTimeout(() => {
+    correctAnswerBtn.style.backgroundColor = "green";
+    incorrectAnswer1.style.backgroundColor = "red";
+    incorrectAnswer2.style.backgroundColor = "red";
+    incorrectAnswer3.style.backgroundColor = "red";
+    correctAnswerBtn.style.pointerEvents = "none";
+    incorrectAnswer1.style.pointerEvents = "none";
+    incorrectAnswer2.style.pointerEvents = "none";
+    incorrectAnswer3.style.pointerEvents = "none";
+    questionDiv.append(nextQ);
+    endGame(index);
+    // getNextQuestion(questions);
+  }, "10000");
+
+  let answersTotal = correctAnswersArr.length;
+  const levelArr = JSON.parse(localStorage.getItem("level"));
+  userScore.textContent = `you've scored: ${answersTotal}`;
+
+  setTimer(timer);
   index += 1;
   endGame(index);
+
   localStorage.setItem("level", JSON.stringify(questions.difficulty));
   questionsArr.push(questions.question);
-  localStorage.setItem("question", JSON.stringify(questionsArr));
 
   const test = localStorage.getItem("level");
   gameContainer.innerHTML = "";
@@ -232,13 +272,20 @@ const renderQuestions = (questions) => {
     .replaceAll(".&rdquo;", "s")
     .replaceAll("&shy;", "");
 
-  console.log(questions.question);
+  // console.log(questions.question);
+  // if (
+  //   questionsArr.length > 0 &&
+  //   JSON.parse(localStorage.getItem("question")).includes(questions.questions)
+  // ) {
+  //   alert("aismdmas");
+  // }
 
   const questionIndexText = document.createElement("p");
   questionIndexText.textContent = `Question number: ${index}`;
 
   const correctAnswerBtn = document.createElement("button");
-  correctAnswerBtn.style.backgroundColor = "blue";
+  correctAnswerBtn.style.backgroundImage =
+    "linear-gradient(rgb(28, 143, 127), rgb(48, 33, 108))";
   correctAnswerBtn.style.marginRight = "10px";
   correctAnswerBtn.setAttribute("id", (id = 1));
   correctAnswerBtn.textContent = questions.correct_answer
@@ -261,10 +308,12 @@ const renderQuestions = (questions) => {
     timer.style.visibility = "hidden";
     correctAnswersArr.push("Correct" + index);
     localStorage.setItem("Correct answers", JSON.stringify(correctAnswersArr));
+    localStorage.setItem("question", JSON.stringify(questionsArr));
   });
 
   const incorrectAnswer1 = document.createElement("button");
-  incorrectAnswer1.style.backgroundColor = "blue";
+  incorrectAnswer1.style.backgroundImage =
+    "linear-gradient(rgb(28, 143, 127), rgb(48, 33, 108))";
   incorrectAnswer1.style.marginRight = "10px";
   incorrectAnswer1.setAttribute("id", (id = 2));
   incorrectAnswer1.textContent = questions.incorrect_answers[0]
@@ -287,10 +336,12 @@ const renderQuestions = (questions) => {
       "Incorrect answers",
       JSON.stringify(incorrectAnswersArr)
     );
+    localStorage.setItem("question", JSON.stringify(questionsArr));
   });
 
   const incorrectAnswer2 = document.createElement("button");
-  incorrectAnswer2.style.backgroundColor = "blue";
+  incorrectAnswer2.style.backgroundImage =
+    "linear-gradient(rgb(28, 143, 127), rgb(48, 33, 108))";
   incorrectAnswer2.style.marginRight = "10px";
   incorrectAnswer2.setAttribute("id", (id = 3));
   incorrectAnswer2.textContent = questions.incorrect_answers[1]
@@ -313,10 +364,12 @@ const renderQuestions = (questions) => {
       "Incorrect answers",
       JSON.stringify(incorrectAnswersArr)
     );
+    localStorage.setItem("question", JSON.stringify(questionsArr));
   });
 
   const incorrectAnswer3 = document.createElement("button");
-  incorrectAnswer3.style.backgroundColor = "blue";
+  incorrectAnswer3.style.backgroundImage =
+    "linear-gradient(rgb(28, 143, 127), rgb(48, 33, 108))";
   incorrectAnswer3.style.marginRight = "10px";
   incorrectAnswer3.setAttribute("id", (id = 4));
   incorrectAnswer3.textContent = questions.incorrect_answers[2]
@@ -340,9 +393,12 @@ const renderQuestions = (questions) => {
       "Incorrect answers",
       JSON.stringify(incorrectAnswersArr)
     );
+    localStorage.setItem("question", JSON.stringify(questionsArr));
   });
 
   questionDiv.appendChild(timer);
+  questionDiv.appendChild(userScore);
+  // questionDiv.appendChild(noTimerText);
   // questionDiv.appendChild(nextQuestionBtn);
   questionDiv.appendChild(questionIndexText);
   questionDiv.appendChild(questionTitle);

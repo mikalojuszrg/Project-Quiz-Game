@@ -128,10 +128,10 @@ newGameBtn.addEventListener("click", () => {
 });
 
 displayScoreBtn.addEventListener("click", () => {
-  if (scoreContainer.style.display === "block") {
+  if (scoreContainer.style.display === "flex") {
     scoreContainer.style.display = "none";
   } else {
-    scoreContainer.style.display = "block";
+    scoreContainer.style.display = "flex";
     getData();
   }
 });
@@ -177,14 +177,16 @@ const endGame = (elem) => {
   if (elem >= 11) {
     gameContainer.style.display = "none";
     showUserScore(userScoreInfo);
-    scoreForm.style.display = "block";
+    scoreForm.style.display = "flex";
   }
 };
 
 scoreForm.addEventListener("submit", (event) => {
   event.preventDefault();
   saveScore();
-  getData();
+  setTimeout(() => {
+    getData();
+  }, 2000);
   regContainer.style.display = "none";
 });
 
@@ -209,11 +211,6 @@ const saveScore = () => {
       console.log(data);
     });
 };
-
-// if (a === "asdaskdaksndkasnkdsa") {
-//   document.getElementById("1").style.backgroundColor = "green";
-// }
-// console.log(a);
 
 const renderQuestions = (questions) => {
   const randomNumber = Math.floor(Math.random() * 2);
@@ -255,9 +252,9 @@ const renderQuestions = (questions) => {
   const test = localStorage.getItem("level");
   gameContainer.innerHTML = "";
   const questionDiv = document.createElement("div");
-  questionDiv.style.width = "400px";
-  questionDiv.style.height = "400px";
-  questionDiv.style.border = "1px solid black";
+  // questionDiv.style.width = "400px";
+  // questionDiv.style.height = "400px";
+  // questionDiv.style.border = "1px solid black";
 
   const questionTitle = document.createElement("h2");
   questionTitle.style.margin = "0";
@@ -272,14 +269,6 @@ const renderQuestions = (questions) => {
     .replaceAll(".&rdquo;", "s")
     .replaceAll("&shy;", "");
 
-  // console.log(questions.question);
-  // if (
-  //   questionsArr.length > 0 &&
-  //   JSON.parse(localStorage.getItem("question")).includes(questions.questions)
-  // ) {
-  //   alert("aismdmas");
-  // }
-
   const questionIndexText = document.createElement("p");
   questionIndexText.textContent = `Question number: ${index}`;
 
@@ -287,13 +276,15 @@ const renderQuestions = (questions) => {
   correctAnswerBtn.style.backgroundImage =
     "linear-gradient(rgb(28, 143, 127), rgb(48, 33, 108))";
   correctAnswerBtn.style.marginRight = "10px";
+  correctAnswerBtn.style.fontSize = "1rem";
   correctAnswerBtn.setAttribute("id", (id = 1));
   correctAnswerBtn.textContent = questions.correct_answer
     .replaceAll("&quot;", "")
     .replaceAll("&#039;", "'");
 
   correctAnswerBtn.addEventListener("click", () => {
-    correctAnswerBtn.style.backgroundColor = "green";
+    correctAnswerBtn.style.backgroundImage =
+      "linear-gradient(rgb(15, 235, 206), rgb(0, 255, 47))";
     incorrectAnswer1.style.visibility = "hidden";
     incorrectAnswer2.style.visibility = "hidden";
     incorrectAnswer3.style.visibility = "hidden";
@@ -321,7 +312,8 @@ const renderQuestions = (questions) => {
     .replaceAll("&#039;", "'");
 
   incorrectAnswer1.addEventListener("click", () => {
-    incorrectAnswer1.style.backgroundColor = "red";
+    incorrectAnswer1.style.backgroundImage =
+      "linear-gradient(rgb(235, 111, 70), rgb(255, 0, 0))";
     correctAnswerBtn.disabled = true;
     incorrectAnswer2.disabled = true;
     incorrectAnswer3.disabled = true;
@@ -349,7 +341,8 @@ const renderQuestions = (questions) => {
     .replaceAll("&#039;", "'");
 
   incorrectAnswer2.addEventListener("click", () => {
-    incorrectAnswer2.style.backgroundColor = "red";
+    incorrectAnswer2.style.backgroundImage =
+      "linear-gradient(rgb(235, 111, 70), rgb(255, 0, 0))";
     correctAnswerBtn.disabled = true;
     incorrectAnswer1.disabled = true;
     incorrectAnswer3.disabled = true;
@@ -377,7 +370,8 @@ const renderQuestions = (questions) => {
     .replaceAll("&#039;", "'");
 
   incorrectAnswer3.addEventListener("click", () => {
-    incorrectAnswer3.style.backgroundColor = "red";
+    incorrectAnswer3.style.backgroundImage =
+      "linear-gradient(rgb(235, 111, 70), rgb(255, 0, 0))";
     correctAnswerBtn.disabled = true;
     incorrectAnswer1.disabled = true;
     incorrectAnswer2.disabled = true;
@@ -398,8 +392,6 @@ const renderQuestions = (questions) => {
 
   questionDiv.appendChild(timer);
   questionDiv.appendChild(userScore);
-  // questionDiv.appendChild(noTimerText);
-  // questionDiv.appendChild(nextQuestionBtn);
   questionDiv.appendChild(questionIndexText);
   questionDiv.appendChild(questionTitle);
   gameContainer.append(questionDiv);
@@ -462,8 +454,15 @@ const getData = () => {
       const easyTop = easyLeaderbord.splice(0, 10);
       const hardTop = hardLeaderbord.splice(0, 10);
 
-      scoreContainer.style.display = "block";
+      scoreContainer.style.display = "flex";
       scoreContainer.innerHTML = "";
+
+      console.log(hardTop);
+      console.log(hardLeaderbord);
+      console.log(easyTop);
+      console.log(easyLeaderbord);
+      console.log(mediumTop);
+      console.log(mediumLeaderbord);
 
       if (JSON.parse(localStorage.getItem("level")) === "easy") {
         scoreContainer.append(makeOl(easyTop));
@@ -481,6 +480,7 @@ const getData = () => {
 
 const makeOl = (array) => {
   let list = document.createElement("ol");
+  list.style.width = "300px";
   for (let i = 0; i < array.length; i++) {
     let item = document.createElement("li");
     item.appendChild(

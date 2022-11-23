@@ -3,6 +3,7 @@ body {
   background-image: url("https://images.unsplash.com/photo-1656170120688-2a23fe65c586?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1296&q=80");
   background-size: 100vw 100vh;
   background-repeat: no-repeat;
+  color: white;
 }
 body h1 {
   color: rgb(255, 255, 255);
@@ -96,9 +97,14 @@ body #rules-container {
   border-radius: 3rem;
   color: white;
 }
+body #score-container {
+  flex-direction: column;
+}
 body #game-container {
   display: flex;
   justify-content: center;
+  width: 70vw;
+  margin: 0 auto;
 }
 body #reg-container #score-form {
   display: none;

@@ -25,13 +25,14 @@ const questionsArr = JSON.parse(localStorage.getItem("Questions ")) || [];
 
 const getEasyQuestions = () => {
   fetch(
-    "https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple"
+    "https://opentdb.com/api.php?amount=1&category=9&difficulty=easy&type=multiple"
   )
     .then((res) => {
       return res.json();
     })
     .then((data) => {
-      renderQuestions(data.results[index]);
+      // console.log(data.results);
+      renderQuestions(data.results[0]);
       // if (data.results[index].question === data.results[index].question)
     })
     .catch((err) => {
@@ -41,13 +42,13 @@ const getEasyQuestions = () => {
 
 const getMediumQuestions = () => {
   fetch(
-    "https://opentdb.com/api.php?amount=10&category=9&difficulty=medium&type=multiple"
+    "https://opentdb.com/api.php?amount=1&category=9&difficulty=medium&type=multiple"
   )
     .then((res) => {
       return res.json();
     })
     .then((data) => {
-      renderQuestions(data.results[index]);
+      renderQuestions(data.results[0]);
     })
     .catch((err) => {
       console.error(err);
@@ -56,14 +57,13 @@ const getMediumQuestions = () => {
 
 const gethardQuestions = () => {
   fetch(
-    "https://opentdb.com/api.php?amount=10&category=9&difficulty=hard&type=multiple"
+    "https://opentdb.com/api.php?amount=1&category=9&difficulty=hard&type=multiple"
   )
     .then((res) => {
       return res.json();
     })
     .then((data) => {
-      renderQuestions(data.results[index]);
-      console.log(data.results);
+      renderQuestions(data.results[0]);
     })
     .catch((err) => {
       console.error(err);
@@ -87,16 +87,8 @@ const setTimer = (elem) => {
 
   function countdown() {
     if (timeLeft === 0) {
-      // document.body.append(a);
-      // a.textContent = "asdaskdaksndkasnkdsa";
-      // a.style.display = "block";
       clearInterval(timerId);
       elem.textContent = "You've run out of time";
-      // document.body.style.pointerEvents = "none";
-      // document.getElementById("1").style.pointerEvents = "none";
-      // document.getElementById("2").style.pointerEvents = "none";
-      // document.getElementById("3").style.pointerEvents = "none";
-      // document.getElementById("4").style.pointerEvents = "none";
     } else {
       elem.textContent = `Time left: ${timeLeft}`;
       timeLeft--;
@@ -150,6 +142,16 @@ hardLevelBtn.addEventListener("click", () => {
   gethardQuestions();
   difficultyContainer.style.display = "none";
 });
+
+const getNextQuestionFast = (obj) => {
+  if (obj.difficulty === "medium") {
+    getMediumQuestions();
+  } else if (obj.difficulty === "hard") {
+    gethardQuestions();
+  } else {
+    getEasyQuestions();
+  }
+};
 
 const getNextQuestion = (obj) => {
   if (obj.difficulty === "medium") {
@@ -213,6 +215,7 @@ const saveScore = () => {
 };
 
 const renderQuestions = (questions) => {
+  console.log(questions.question);
   const randomNumber = Math.floor(Math.random() * 2);
   const timer = document.createElement("p");
   const userScore = document.createElement("p");
@@ -222,21 +225,35 @@ const renderQuestions = (questions) => {
   nextQ.addEventListener("click", () => {
     getNextQuestion(questions);
   });
-  // nextQ.style.display = "none";
+
+  if (questionsArr.includes(questions.question)) {
+    console.log("ALERREAOKRAEOROAEKRKEOROAEORK");
+    getNextQuestionFast(questions);
+    questionIndexText.textContent = `Question number: ${index - 1}`;
+  }
+
+  console.log(questionsArr);
 
   setTimeout(() => {
-    correctAnswerBtn.style.backgroundColor = "green";
-    incorrectAnswer1.style.backgroundColor = "red";
-    incorrectAnswer2.style.backgroundColor = "red";
-    incorrectAnswer3.style.backgroundColor = "red";
     correctAnswerBtn.style.pointerEvents = "none";
     incorrectAnswer1.style.pointerEvents = "none";
     incorrectAnswer2.style.pointerEvents = "none";
     incorrectAnswer3.style.pointerEvents = "none";
+  }, 10000);
+
+  setTimeout(() => {
+    correctAnswerBtn.style.backgroundImage =
+      "linear-gradient(rgb(15, 235, 206), rgb(0, 255, 80))";
+    correctAnswerBtn.style.color = "black";
+    incorrectAnswer1.style.backgroundImage =
+      "linear-gradient(rgb(235, 111, 70), rgb(255, 0, 0))";
+    incorrectAnswer2.style.backgroundImage =
+      "linear-gradient(rgb(235, 111, 70), rgb(255, 0, 0))";
+    incorrectAnswer3.style.backgroundImage =
+      "linear-gradient(rgb(235, 111, 70), rgb(255, 0, 0))";
     questionDiv.append(nextQ);
     endGame(index);
-    // getNextQuestion(questions);
-  }, "10000");
+  }, "12000");
 
   let answersTotal = correctAnswersArr.length;
   const levelArr = JSON.parse(localStorage.getItem("level"));
@@ -252,9 +269,6 @@ const renderQuestions = (questions) => {
   const test = localStorage.getItem("level");
   gameContainer.innerHTML = "";
   const questionDiv = document.createElement("div");
-  // questionDiv.style.width = "400px";
-  // questionDiv.style.height = "400px";
-  // questionDiv.style.border = "1px solid black";
 
   const questionTitle = document.createElement("h2");
   questionTitle.style.margin = "0";

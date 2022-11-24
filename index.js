@@ -5,6 +5,9 @@ const displayScoreBtn = document.querySelector("#score-btn");
 const easyLevelBtn = document.querySelector("#easy-level-btn");
 const mediumLevelBtn = document.querySelector("#medium-level-btn");
 const hardLevelBtn = document.querySelector("#hard-level-btn");
+const soundOnBtn = document.querySelector("#sound-on-btn");
+const soundOffBtn = document.querySelector("#sound-off-btn");
+const themeSound = document.querySelector("#theme-sound");
 const difficultyText = document.querySelector("#select-difficulty");
 
 const difficultyContainer = document.querySelector("#difficulty-container");
@@ -22,6 +25,15 @@ const correctAnswersArr =
 const incorrectAnswersArr =
   JSON.parse(localStorage.getItem("Correct answers ")) || [];
 const questionsArr = JSON.parse(localStorage.getItem("Questions ")) || [];
+
+soundOnBtn.addEventListener("click", () => {
+  themeSound.play();
+});
+
+soundOffBtn.addEventListener("click", () => {
+  themeSound.pause();
+  themeSound.currentTime = 0;
+});
 
 const getEasyQuestions = () => {
   fetch(
@@ -130,6 +142,7 @@ displayScoreBtn.addEventListener("click", () => {
 
 easyLevelBtn.addEventListener("click", () => {
   getEasyQuestions();
+  gameContainer.style.display = "flex";
   difficultyContainer.style.display = "none";
 });
 
@@ -214,6 +227,16 @@ const saveScore = () => {
     });
 };
 
+const playCorrectSound = () => {
+  let audio = new Audio("audio/correct-6033.mp3");
+  audio.play();
+};
+
+const playIncorrectSound = () => {
+  let audio = new Audio("audio/wrong-answer-126515.mp3");
+  audio.play();
+};
+
 const renderQuestions = (questions) => {
   console.log(questions.question);
   const randomNumber = Math.floor(Math.random() * 2);
@@ -261,6 +284,9 @@ const renderQuestions = (questions) => {
 
   setTimer(timer);
   index += 1;
+  if (index === 10) {
+    nextQ.textContent = "Finish the game";
+  }
   endGame(index);
 
   localStorage.setItem("level", JSON.stringify(questions.difficulty));
@@ -289,7 +315,8 @@ const renderQuestions = (questions) => {
   const correctAnswerBtn = document.createElement("button");
   correctAnswerBtn.style.backgroundImage =
     "linear-gradient(rgb(28, 143, 127), rgb(48, 33, 108))";
-  correctAnswerBtn.style.marginRight = "10px";
+  correctAnswerBtn.style.marginTop = "20px";
+  correctAnswerBtn.style.marginRight = "15px";
   correctAnswerBtn.style.fontSize = "1rem";
   correctAnswerBtn.setAttribute("id", (id = 1));
   correctAnswerBtn.textContent = questions.correct_answer
@@ -297,6 +324,7 @@ const renderQuestions = (questions) => {
     .replaceAll("&#039;", "'");
 
   correctAnswerBtn.addEventListener("click", () => {
+    playCorrectSound();
     correctAnswerBtn.style.backgroundImage =
       "linear-gradient(rgb(15, 235, 206), rgb(0, 255, 47))";
     incorrectAnswer1.style.visibility = "hidden";
@@ -319,13 +347,16 @@ const renderQuestions = (questions) => {
   const incorrectAnswer1 = document.createElement("button");
   incorrectAnswer1.style.backgroundImage =
     "linear-gradient(rgb(28, 143, 127), rgb(48, 33, 108))";
-  incorrectAnswer1.style.marginRight = "10px";
+  incorrectAnswer1.style.marginTop = "20px";
+  incorrectAnswer1.style.marginRight = "15px";
+  incorrectAnswer1.style.fontSize = "1rem";
   incorrectAnswer1.setAttribute("id", (id = 2));
   incorrectAnswer1.textContent = questions.incorrect_answers[0]
     .replaceAll("&quot;", "")
     .replaceAll("&#039;", "'");
 
   incorrectAnswer1.addEventListener("click", () => {
+    playIncorrectSound();
     incorrectAnswer1.style.backgroundImage =
       "linear-gradient(rgb(235, 111, 70), rgb(255, 0, 0))";
     correctAnswerBtn.disabled = true;
@@ -348,13 +379,16 @@ const renderQuestions = (questions) => {
   const incorrectAnswer2 = document.createElement("button");
   incorrectAnswer2.style.backgroundImage =
     "linear-gradient(rgb(28, 143, 127), rgb(48, 33, 108))";
-  incorrectAnswer2.style.marginRight = "10px";
+  incorrectAnswer2.style.marginTop = "20px";
+  incorrectAnswer2.style.marginRight = "15px";
+  incorrectAnswer2.style.fontSize = "1rem";
   incorrectAnswer2.setAttribute("id", (id = 3));
   incorrectAnswer2.textContent = questions.incorrect_answers[1]
     .replaceAll("&quot;", "")
     .replaceAll("&#039;", "'");
 
   incorrectAnswer2.addEventListener("click", () => {
+    playIncorrectSound();
     incorrectAnswer2.style.backgroundImage =
       "linear-gradient(rgb(235, 111, 70), rgb(255, 0, 0))";
     correctAnswerBtn.disabled = true;
@@ -377,13 +411,16 @@ const renderQuestions = (questions) => {
   const incorrectAnswer3 = document.createElement("button");
   incorrectAnswer3.style.backgroundImage =
     "linear-gradient(rgb(28, 143, 127), rgb(48, 33, 108))";
-  incorrectAnswer3.style.marginRight = "10px";
+  incorrectAnswer3.style.marginTop = "20px";
+  incorrectAnswer3.style.marginRight = "15px";
+  incorrectAnswer3.style.fontSize = "1rem";
   incorrectAnswer3.setAttribute("id", (id = 4));
   incorrectAnswer3.textContent = questions.incorrect_answers[2]
     .replaceAll("&quot;", "")
     .replaceAll("&#039;", "'");
 
   incorrectAnswer3.addEventListener("click", () => {
+    playIncorrectSound();
     incorrectAnswer3.style.backgroundImage =
       "linear-gradient(rgb(235, 111, 70), rgb(255, 0, 0))";
     correctAnswerBtn.disabled = true;

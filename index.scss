@@ -5,12 +5,49 @@ body {
   background-repeat: no-repeat;
   color: white;
 
+  .sound-btn {
+    font-size: 1rem;
+    background: linear-gradient(
+      90deg,
+      rgba(147, 108, 217, 1) 0%,
+      rgba(103, 58, 183, 1) 50%,
+      rgba(151, 116, 213, 1) 100%
+    );
+
+    &:hover {
+      background: linear-gradient(
+        90deg,
+        rgb(81, 32, 166) 0%,
+        rgb(22, 4, 54) 50%,
+        rgb(81, 32, 166) 100%
+      );
+    }
+
+    &:focus {
+      background: linear-gradient(
+        90deg,
+        rgb(13, 94, 43) 0%,
+        rgb(58, 183, 60) 50%,
+        rgb(13, 94, 43) 100%
+      );
+    }
+
+    &:active {
+      background: linear-gradient(
+        90deg,
+        rgb(13, 94, 43) 0%,
+        rgb(58, 183, 60) 50%,
+        rgb(13, 94, 43) 100%
+      );
+    }
+  }
+
   h1 {
     color: rgb(255, 255, 255);
     background-image: linear-gradient(rgb(28, 143, 127), rgb(48, 33, 108));
     max-width: fit-content;
     margin: 0 auto;
-    margin-top: 30px;
+    margin-top: 50px;
     width: 25ch;
     animation: typing 2s steps(22), blink 0.5s step-end infinite alternate;
     white-space: nowrap;
@@ -98,20 +135,37 @@ body {
   }
 
   #game-container {
-    display: flex;
-    justify-content: center;
-    width: 70vw;
-    margin: 0 auto;
-    // margin: 0 auto;
+    text-align: center;
+    border-radius: 2rem;
+    display: none;
+    background: linear-gradient(
+      90deg,
+      rgba(147, 108, 217, 1) 0%,
+      rgba(103, 58, 183, 1) 50%,
+      rgba(151, 116, 213, 1) 100%
+    );
 
-    button {
-      font-size: 1rem;
-    }
+    justify-content: center;
+    width: 50vw;
+    margin: 0 auto;
+    padding: 2rem;
   }
 
   #reg-container {
     #score-form {
       display: none;
+      background: linear-gradient(
+        90deg,
+        rgba(147, 108, 217, 1) 0%,
+        rgba(103, 58, 183, 1) 50%,
+        rgba(151, 116, 213, 1) 100%
+      );
+      text-align: center;
+      border-radius: 2rem;
+      justify-content: center;
+      width: 50vw;
+      margin: 0 auto;
+      padding: 2rem;
     }
   }
 }

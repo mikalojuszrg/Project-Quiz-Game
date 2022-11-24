@@ -11,10 +11,23 @@
       href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="shortcut icon" href="#" />
     <script defer src="index.js"></script>
     <title>Quiz game</title>
   </head>
   <body>
+    <button type="button" class="sound-btn" id="sound-on-btn">
+      <i class="fa-solid fa-volume-high"></i>
+    </button>
+
+    <button type="button" class="sound-btn" id="sound-off-btn">
+      <i class="fa-solid fa-volume-xmark"></i>
+    </button>
+
     <h1>Welcome to the quiz game!</h1>
 
     <section class="landing-actions">
@@ -22,6 +35,13 @@
       <button type="button" id="new-game-btn">New game</button>
       <button type="button" id="score-btn">Scoreboard</button>
     </section>
+
+    <audio id="theme-sound">
+      <source
+        src="audio/andrew-kn-at-the-edge-of-space-ii-17019.mp3"
+        type="audio/mpeg"
+      />
+    </audio>
 
     <div id="difficulty-container">
       <p id="select-difficulty">Select a difficulty</p>

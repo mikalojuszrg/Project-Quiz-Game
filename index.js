@@ -464,6 +464,8 @@ const getData = () => {
           return { username: value.username, score: value.score };
         });
 
+      console.log(easyLeaderbord);
+
       const mediumTop = mediumLeaderbord.splice(0, 10); // TOP 10
       const easyTop = easyLeaderbord.splice(0, 10);
       const hardTop = hardLeaderbord.splice(0, 10);
@@ -471,12 +473,28 @@ const getData = () => {
       scoreContainer.style.display = "flex";
       scoreContainer.innerHTML = "";
 
-      console.log(hardTop);
-      console.log(hardLeaderbord);
-      console.log(easyTop);
-      console.log(easyLeaderbord);
-      console.log(mediumTop);
-      console.log(mediumLeaderbord);
+      // console.log(hardTop);
+      // console.log(hardLeaderbord);
+      // console.log(easyTop);
+      // console.log(mediumTop);
+      // console.log(mediumLeaderbord);
+
+      console.log(scoreForm[0].value);
+
+      const test =
+        easyLeaderbord.findIndex(
+          (element) => element.username === scoreForm[0].value
+        ) + 11;
+
+      console.log(test);
+      const p = document.createElement("p");
+      p.textContent = `Unfortunately, you're not among top 10 players. Your position is ${test}`;
+      scoreContainer.append(p);
+      p.style.display = "none";
+
+      if (test > 10) {
+        p.style.display = "block";
+      }
 
       if (JSON.parse(localStorage.getItem("level")) === "easy") {
         scoreContainer.append(makeOl(easyTop));

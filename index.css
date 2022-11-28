@@ -5,20 +5,45 @@ body {
   background-repeat: no-repeat;
   color: white;
 }
-body .sound-btn {
+body button {
+  font-family: inherit;
+  border-radius: 3rem;
+  border: 0;
+  color: white;
+  background-color: rgb(62, 198, 153);
+  padding: 1rem 2rem;
+  font-size: 2rem;
+  cursor: pointer;
+}
+body button:hover {
+  background-color: rgb(32, 129, 96);
+}
+@media screen and (max-width: 768px) {
+  body button {
+    padding: 1rem 1rem;
+    font-size: 2rem;
+  }
+}
+body header .sound-btn {
   font-size: 1rem;
   background: linear-gradient(90deg, rgb(147, 108, 217) 0%, rgb(103, 58, 183) 50%, rgb(151, 116, 213) 100%);
 }
-body .sound-btn:hover {
+body header .sound-btn:hover {
   background: linear-gradient(90deg, rgb(81, 32, 166) 0%, rgb(22, 4, 54) 50%, rgb(81, 32, 166) 100%);
 }
-body .sound-btn:focus {
+body header .sound-btn:focus {
   background: linear-gradient(90deg, rgb(13, 94, 43) 0%, rgb(58, 183, 60) 50%, rgb(13, 94, 43) 100%);
 }
-body .sound-btn:active {
+body header .sound-btn:active {
   background: linear-gradient(90deg, rgb(13, 94, 43) 0%, rgb(58, 183, 60) 50%, rgb(13, 94, 43) 100%);
 }
-body h1 {
+body header #home-btn,
+body header #back-btn {
+  font-size: 1rem;
+  margin-right: 0.5rem;
+  float: right;
+}
+body header h1 {
   color: rgb(255, 255, 255);
   background-image: linear-gradient(rgb(28, 143, 127), rgb(48, 33, 108));
   max-width: -webkit-fit-content;
@@ -34,6 +59,11 @@ body h1 {
   border-right: 3px solid;
   font-family: monospace;
   font-size: 3rem;
+}
+@media screen and (max-width: 768px) {
+  body header h1 {
+    font-size: 1.5rem;
+  }
 }
 @-webkit-keyframes typing {
   from {
@@ -55,17 +85,25 @@ body h1 {
     border-color: transparent;
   }
 }
-body .landing-actions {
+body main .landing-actions {
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin: 0 auto;
-  margin-top: 2rem;
+  margin-top: 4rem;
   gap: 1rem;
   width: 20rem;
   height: 30%;
 }
-body #difficulty-container {
+body main .landing-actions #rules-btn,
+body main .landing-actions #new-game-btn,
+body main .landing-actions #score-btn,
+body main .landing-actions #easy-score-btn,
+body main .landing-actions #medium-score-btn,
+body main .landing-actions #hard-score-btn {
+  display: none;
+}
+body main #difficulty-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -74,62 +112,81 @@ body #difficulty-container {
   gap: 1rem;
   width: 20rem;
 }
-body #difficulty-container #select-difficulty {
+body main #difficulty-container #easy-level-btn,
+body main #difficulty-container #medium-level-btn,
+body main #difficulty-container #hard-level-btn,
+body main #difficulty-container #select-difficulty {
+  display: none;
+}
+body main #difficulty-container #select-difficulty {
   font-size: 1.5rem;
   margin: 0 auto;
   color: white;
   background-image: linear-gradient(rgb(28, 143, 127), rgb(48, 33, 108));
 }
-body button {
-  font-family: inherit;
-  border-radius: 3rem;
-  border: 0;
-  color: white;
-  background-color: rgb(62, 198, 153);
-  padding: 1rem 2rem;
-  font-size: 2rem;
-  cursor: pointer;
-}
-body button:hover {
-  background-color: rgb(32, 129, 96);
-}
-body #difficulty-container #easy-level-btn,
-body #difficulty-container #medium-level-btn,
-body #difficulty-container #hard-level-btn,
-body #difficulty-container #select-difficulty {
+body main #rules-container {
   display: none;
-}
-body #rules-container {
-  display: none;
-  background-color: rgb(62, 198, 153);
+  flex-direction: column;
+  border-radius: 2rem;
+  background: linear-gradient(90deg, rgb(147, 108, 217) 0%, rgb(103, 58, 183) 50%, rgb(151, 116, 213) 100%);
+  justify-content: center;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
+  margin: 0 auto;
   padding: 1rem;
-  margin: 1rem;
-  border-radius: 3rem;
-  color: white;
 }
-body #score-container {
+body main #score-container {
   flex-direction: column;
-}
-body #game-container {
-  text-align: center;
+  gap: 1rem;
   border-radius: 2rem;
-  display: none;
+  display: flex;
   background: linear-gradient(90deg, rgb(147, 108, 217) 0%, rgb(103, 58, 183) 50%, rgb(151, 116, 213) 100%);
   justify-content: center;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 0 auto;
+}
+body main #game-container {
+  text-align: center;
+  border-radius: 2rem;
+  display: flex;
+  background: linear-gradient(90deg, rgb(147, 108, 217) 0%, rgb(103, 58, 183) 50%, rgb(151, 116, 213) 100%);
+  justify-content: center;
+  width: 70vw;
+  margin: 0 auto;
+}
+body main #reg-container {
+  text-align: center;
+}
+body main #reg-container #user-score-info {
+  font-size: 1.5rem;
+  margin-left: 1rem;
+  margin: 0 auto;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  background: linear-gradient(90deg, rgb(13, 94, 43) 0%, rgb(58, 183, 60) 50%, rgb(13, 94, 43) 100%);
+}
+body main #reg-container #score-form {
+  display: none;
+  background: linear-gradient(90deg, rgb(147, 108, 217) 0%, rgb(103, 58, 183) 50%, rgb(151, 116, 213) 100%);
+  text-align: center;
+  border-radius: 2rem;
+  justify-content: center;
+  align-items: center;
   width: 50vw;
   margin: 0 auto;
   padding: 2rem;
+  margin-top: 1rem;
 }
-body #reg-container #score-form {
-  display: none;
-  background: linear-gradient(90deg, rgb(147, 108, 217) 0%, rgb(103, 58, 183) 50%, rgb(151, 116, 213) 100%);
-  text-align: center;
-  border-radius: 2rem;
-  justify-content: center;
-  width: 50vw;
-  margin: 0 auto;
-  padding: 2rem;
+body main #reg-container #score-form button {
+  padding: 1rem;
+  font-size: 1rem;
+  margin-left: 1rem;
+  background: linear-gradient(90deg, rgb(13, 94, 43) 0%, rgb(58, 183, 60) 50%, rgb(13, 94, 43) 100%);
+}
+body main #reg-container #score-form button:hover {
+  background: linear-gradient(90deg, rgb(13, 94, 43) 0%, rgb(2, 64, 3) 50%, rgb(13, 94, 43) 100%);
 }/*# sourceMappingURL=index.css.map */

@@ -20,55 +20,72 @@
     <title>Quiz game</title>
   </head>
   <body>
-    <button type="button" class="sound-btn" id="sound-on-btn">
-      <i class="fa-solid fa-volume-high"></i>
-    </button>
+    <header>
+      <button type="button" class="sound-btn" id="sound-on-btn">
+        <i class="fa-solid fa-volume-high"></i>
+      </button>
 
-    <button type="button" class="sound-btn" id="sound-off-btn">
-      <i class="fa-solid fa-volume-xmark"></i>
-    </button>
+      <button type="button" class="sound-btn" id="sound-off-btn">
+        <i class="fa-solid fa-volume-xmark"></i>
+      </button>
 
-    <h1>Welcome to the quiz game!</h1>
+      <audio id="theme-sound">
+        <source
+          src="audio/andrew-kn-at-the-edge-of-space-ii-17019.mp3"
+          type="audio/mpeg"
+        />
+      </audio>
 
-    <section class="landing-actions">
-      <button type="button" id="rules-btn">Rules</button>
-      <button type="button" id="new-game-btn">New game</button>
-      <button type="button" id="score-btn">Scoreboard</button>
-    </section>
+      <button type="button" id="home-btn">
+        <i class="fa-solid fa-house"></i>
+      </button>
 
-    <audio id="theme-sound">
-      <source
-        src="audio/andrew-kn-at-the-edge-of-space-ii-17019.mp3"
-        type="audio/mpeg"
-      />
-    </audio>
+      <button type="button" id="back-btn">
+        <i class="fa-solid fa-circle-arrow-left"></i>
+      </button>
 
-    <div id="difficulty-container">
-      <p id="select-difficulty">Select a difficulty</p>
-      <button type="button" id="easy-level-btn">Easy</button>
-      <button type="button" id="medium-level-btn">Medium</button>
-      <button type="button" id="hard-level-btn">Hard</button>
-    </div>
+      <h1>Welcome to the quiz game!</h1>
+    </header>
+    <main>
+      <section class="landing-actions">
+        <button type="button" id="start-btn">Start</button>
+        <button type="button" id="new-game-btn">New game</button>
+        <button type="button" id="rules-btn">Rules</button>
+        <button type="button" id="score-btn">Scoreboard</button>
+        <button type="button" id="easy-score-btn">Easy scoreboard</button>
+        <button type="button" id="medium-score-btn">Medium scoreboard</button>
+        <button type="button" id="hard-score-btn">Hard scoreboard</button>
+      </section>
 
-    <div id="rules-container">
-      <p>1. Select a difficulty - easy, medium, or hard</p>
-      <p>2. Answer 10 questions (30 sec for each question)</p>
-      <p>3. Reach the top of the scoreboard</p>
-    </div>
+      <div id="difficulty-container">
+        <p id="select-difficulty">Select a difficulty</p>
+        <button type="button" id="easy-level-btn">Easy</button>
+        <button type="button" id="medium-level-btn">Medium</button>
+        <button type="button" id="hard-level-btn">Hard</button>
+      </div>
 
-    <div id="score-container"></div>
+      <div id="rules-container">
+        <p>1. Select a difficulty - easy, medium, or hard</p>
+        <p>2. Answer 10 questions (10 sec for each question)</p>
+        <p>3. Reach the top of the scoreboard</p>
+      </div>
 
-    <div id="game-container"></div>
+      <div id="score-container"></div>
 
-    <div id="reg-container">
-      <p id="user-score-info"></p>
-      <form id="score-form" type="submit">
-        <label for="username">Insert Username</label>
-        <input type="text" id="username" name="username" required />
-        <button type="submit">Save</button>
-      </form>
-    </div>
+      <div id="game-container"></div>
 
-    <div id="time-div"></div>
+      <div id="reg-container">
+        <p id="user-score-info"></p>
+        <form id="score-form" type="submit">
+          <div class="name-input">
+            <label for="username">Insert Username</label>
+            <input type="text" id="username" name="username" required />
+          </div>
+          <button type="submit">Save</button>
+        </form>
+      </div>
+
+      <div id="time-div"></div>
+    </main>
   </body>
 </html>

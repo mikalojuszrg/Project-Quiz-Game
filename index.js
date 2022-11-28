@@ -1,12 +1,17 @@
 const newGameBtn = document.querySelector("#new-game-btn");
 const displayRulesBtn = document.querySelector("#rules-btn");
 const displayScoreBtn = document.querySelector("#score-btn");
-
+const startBtn = document.querySelector("#start-btn");
 const easyLevelBtn = document.querySelector("#easy-level-btn");
 const mediumLevelBtn = document.querySelector("#medium-level-btn");
 const hardLevelBtn = document.querySelector("#hard-level-btn");
 const soundOnBtn = document.querySelector("#sound-on-btn");
 const soundOffBtn = document.querySelector("#sound-off-btn");
+const easyScoreBtn = document.querySelector("#easy-score-btn");
+const mediumScoreBtn = document.querySelector("#medium-score-btn");
+const hardScoreBtn = document.querySelector("#hard-score-btn");
+const homeBtn = document.querySelector("#home-btn");
+
 const themeSound = document.querySelector("#theme-sound");
 const difficultyText = document.querySelector("#select-difficulty");
 
@@ -25,6 +30,21 @@ const correctAnswersArr =
 const incorrectAnswersArr =
   JSON.parse(localStorage.getItem("Correct answers ")) || [];
 const questionsArr = JSON.parse(localStorage.getItem("Questions ")) || [];
+
+window.addEventListener("load", () => {
+  localStorage.clear();
+});
+
+homeBtn.addEventListener("click", () => {
+  document.location.reload();
+});
+
+startBtn.addEventListener("click", () => {
+  newGameBtn.style.display = "block";
+  displayRulesBtn.style.display = "block";
+  displayScoreBtn.style.display = "block";
+  startBtn.style.display = "none";
+});
 
 soundOnBtn.addEventListener("click", () => {
   themeSound.play();
@@ -100,7 +120,7 @@ const setTimer = (elem) => {
   function countdown() {
     if (timeLeft === 0) {
       clearInterval(timerId);
-      elem.textContent = "You've run out of time";
+      elem.textContent = "You've run out of time 🥲";
     } else {
       elem.textContent = `Time left: ${timeLeft}`;
       timeLeft--;
@@ -136,14 +156,38 @@ displayScoreBtn.addEventListener("click", () => {
     scoreContainer.style.display = "none";
   } else {
     scoreContainer.style.display = "flex";
+    scoreContainer.style.padding = "1rem";
     getData();
   }
+  displayRulesBtn.style.display = "none";
+  displayScoreBtn.style.display = "none";
+  rulesContainer.style.display = "none";
+  newGameBtn.style.display = "none";
+  easyScoreBtn.style.display = "block";
+  mediumScoreBtn.style.display = "block";
+  hardScoreBtn.style.display = "block";
+});
+
+easyScoreBtn.addEventListener("click", () => {
+  localStorage.setItem("level", `"easy"`);
+  getData();
+  easyScoreBtn.style.display = "none";
+  mediumScoreBtn.style.display = "none";
+  hardScoreBtn.style.display = "none";
 });
 
 easyLevelBtn.addEventListener("click", () => {
   getEasyQuestions();
-  gameContainer.style.display = "flex";
+  gameContainer.style.padding = "2rem";
   difficultyContainer.style.display = "none";
+});
+
+mediumScoreBtn.addEventListener("click", () => {
+  localStorage.setItem("level", `"medium"`);
+  getData();
+  easyScoreBtn.style.display = "none";
+  mediumScoreBtn.style.display = "none";
+  hardScoreBtn.style.display = "none";
 });
 
 mediumLevelBtn.addEventListener("click", () => {
@@ -186,6 +230,7 @@ const showUserScore = (elem) => {
   let answersTotal = correctAnswersArr.length;
   const levelArr = JSON.parse(localStorage.getItem("level"));
   elem.textContent = `you've scored ${answersTotal} out of 10. Level: ${levelArr}`;
+  elem.style.padding = "1rem";
 };
 
 const endGame = (elem) => {
@@ -244,10 +289,15 @@ const renderQuestions = (questions) => {
   const userScore = document.createElement("p");
   showUserScore(userScore);
   const nextQ = document.createElement("button");
-  nextQ.textContent = "Next question";
+  nextQ.style.marginTop = "20px";
+  nextQ.style.marginRight = "15px";
+  nextQ.style.fontSize = "1rem";
+  nextQ.textContent = `Next question`;
   nextQ.addEventListener("click", () => {
-    getNextQuestion(questions);
+    getNextQuestionFast(questions);
   });
+  const timerText = document.createElement("p");
+  timerText.style.display = "none";
 
   if (questionsArr.includes(questions.question)) {
     console.log("ALERREAOKRAEOROAEKRKEOROAEORK");
@@ -274,7 +324,8 @@ const renderQuestions = (questions) => {
       "linear-gradient(rgb(235, 111, 70), rgb(255, 0, 0))";
     incorrectAnswer3.style.backgroundImage =
       "linear-gradient(rgb(235, 111, 70), rgb(255, 0, 0))";
-    questionDiv.append(nextQ);
+    questionDiv.prepend(nextQ);
+    timer.style.display = "none";
     endGame(index);
   }, "12000");
 
@@ -338,7 +389,9 @@ const renderQuestions = (questions) => {
     incorrectAnswer2.style.pointerEvents = "none";
     incorrectAnswer3.style.pointerEvents = "none";
     getNextQuestion(questions);
-    timer.style.visibility = "hidden";
+    timer.style.display = "none";
+    timerText.textContent = "Correct ✅";
+    timerText.style.display = "block";
     correctAnswersArr.push("Correct" + index);
     localStorage.setItem("Correct answers", JSON.stringify(correctAnswersArr));
     localStorage.setItem("question", JSON.stringify(questionsArr));
@@ -366,8 +419,10 @@ const renderQuestions = (questions) => {
     incorrectAnswer1.style.pointerEvents = "none";
     incorrectAnswer2.style.pointerEvents = "none";
     incorrectAnswer3.style.pointerEvents = "none";
+    timer.style.display = "none";
+    timerText.textContent = "Incorrect ❌";
+    timerText.style.display = "block";
     getNextQuestion(questions);
-    timer.style.visibility = "hidden";
     incorrectAnswersArr.push("Incorrect" + index);
     localStorage.setItem(
       "Incorrect answers",
@@ -398,7 +453,9 @@ const renderQuestions = (questions) => {
     incorrectAnswer2.style.pointerEvents = "none";
     incorrectAnswer1.style.pointerEvents = "none";
     incorrectAnswer3.style.pointerEvents = "none";
-    timer.style.visibility = "hidden";
+    timer.style.display = "none";
+    timerText.textContent = "Incorrect ❌";
+    timerText.style.display = "block";
     getNextQuestion(questions);
     incorrectAnswersArr.push("Incorrect" + index);
     localStorage.setItem(
@@ -430,9 +487,10 @@ const renderQuestions = (questions) => {
     correctAnswerBtn.style.pointerEvents = "none";
     incorrectAnswer1.style.pointerEvents = "none";
     incorrectAnswer2.style.pointerEvents = "none";
-
     getNextQuestion(questions);
-    timer.style.visibility = "hidden";
+    timer.style.display = "none";
+    timerText.textContent = "Incorrect ❌";
+    timerText.style.display = "block";
     incorrectAnswersArr.push("Incorrect" + index);
     localStorage.setItem(
       "Incorrect answers",
@@ -442,6 +500,7 @@ const renderQuestions = (questions) => {
   });
 
   questionDiv.appendChild(timer);
+  questionDiv.prepend(timerText);
   questionDiv.appendChild(userScore);
   questionDiv.appendChild(questionIndexText);
   questionDiv.appendChild(questionTitle);
@@ -510,11 +569,11 @@ const getData = () => {
       scoreContainer.style.display = "flex";
       scoreContainer.innerHTML = "";
 
-      // console.log(hardTop);
-      // console.log(hardLeaderbord);
-      // console.log(easyTop);
-      // console.log(mediumTop);
-      // console.log(mediumLeaderbord);
+      console.log(hardTop);
+      console.log(hardLeaderbord);
+      console.log(easyTop);
+      console.log(mediumTop);
+      console.log(mediumLeaderbord);
 
       console.log(scoreForm[0].value);
 
@@ -527,6 +586,7 @@ const getData = () => {
       const p = document.createElement("p");
       p.textContent = `Unfortunately, you're not among top 10 players. Your position is ${test}`;
       scoreContainer.append(p);
+      scoreContainer.style.padding = "1rem";
       p.style.display = "none";
 
       if (test > 10) {
@@ -539,11 +599,11 @@ const getData = () => {
         scoreContainer.append(makeOl(mediumTop));
       } else if (JSON.parse(localStorage.getItem("level")) === "hard") {
         scoreContainer.append(makeOl(hardTop));
-      } else {
-        scoreContainer.append(makeOl(easyTop));
-        scoreContainer.append(makeOl(mediumTop));
-        scoreContainer.append(makeOl(hardTop));
       }
+      //   scoreContainer.append(makeOl(easyTop));
+      //   scoreContainer.append(makeOl(mediumTop));
+      //   scoreContainer.append(makeOl(hardTop));
+      // }
     });
 };
 

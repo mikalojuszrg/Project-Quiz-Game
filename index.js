@@ -327,14 +327,9 @@ const renderQuestions = (questions) => {
 
   const userScore = document.createElement("p");
   showUserScore(userScore);
-  const nextQ = document.createElement("button");
-  nextQ.style.marginTop = "20px";
-  nextQ.style.marginRight = "15px";
-  nextQ.style.fontSize = "1rem";
-  nextQ.textContent = `Next question`;
-  nextQ.addEventListener("click", () => {
-    getNextQuestionFast(questions);
-  });
+  let answersTotal = correctAnswersArr.length;
+  const levelArr = JSON.parse(localStorage.getItem("level"));
+  userScore.textContent = `you've scored: ${answersTotal}`;
 
   if (questionsArr.includes(questions.question)) {
     console.log("ALERREAOKRAEOROAEKRKEOROAEORK");
@@ -342,9 +337,12 @@ const renderQuestions = (questions) => {
     questionIndexText.textContent = `Question number: ${index - 1}`;
   }
 
-  let answersTotal = correctAnswersArr.length;
-  const levelArr = JSON.parse(localStorage.getItem("level"));
-  userScore.textContent = `you've scored: ${answersTotal}`;
+  const nextQ = document.createElement("button");
+  nextQ.setAttribute("class", "button-styles");
+  nextQ.textContent = `Next question`;
+  nextQ.addEventListener("click", () => {
+    getNextQuestionFast(questions);
+  });
 
   index += 1;
   if (index === 10) {
@@ -354,8 +352,6 @@ const renderQuestions = (questions) => {
 
   localStorage.setItem("level", JSON.stringify(questions.difficulty));
   questionsArr.push(questions.question);
-
-  // const test = localStorage.getItem("level");
 
   const questionTitle = document.createElement("h2");
   questionTitle.style.margin = "0";
@@ -378,7 +374,13 @@ const renderQuestions = (questions) => {
   correctAnswerBtn.setAttribute("class", "button-styles");
   correctAnswerBtn.textContent = questions.correct_answer
     .replaceAll("&quot;", "")
-    .replaceAll("&#039;", "'");
+    .replaceAll("&#039;", "'")
+    .replaceAll("&ldquo;", "")
+    .replaceAll("&rsquo;", "'")
+    .replaceAll("&aacute;", "a")
+    .replaceAll("&iacute;", "i")
+    .replaceAll(".&rdquo;", "s")
+    .replaceAll("&shy;", "");
 
   correctAnswerBtn.addEventListener("click", () => {
     playCorrectSound();
@@ -402,7 +404,13 @@ const renderQuestions = (questions) => {
   incorrectAnswer1.setAttribute("class", "button-styles");
   incorrectAnswer1.textContent = questions.incorrect_answers[0]
     .replaceAll("&quot;", "")
-    .replaceAll("&#039;", "'");
+    .replaceAll("&#039;", "'")
+    .replaceAll("&ldquo;", "")
+    .replaceAll("&rsquo;", "'")
+    .replaceAll("&aacute;", "a")
+    .replaceAll("&iacute;", "i")
+    .replaceAll(".&rdquo;", "s")
+    .replaceAll("&shy;", "");
 
   incorrectAnswer1.addEventListener("click", () => {
     playIncorrectSound();
@@ -429,7 +437,13 @@ const renderQuestions = (questions) => {
   incorrectAnswer2.setAttribute("id", (id = 3));
   incorrectAnswer2.textContent = questions.incorrect_answers[1]
     .replaceAll("&quot;", "")
-    .replaceAll("&#039;", "'");
+    .replaceAll("&#039;", "'")
+    .replaceAll("&ldquo;", "")
+    .replaceAll("&rsquo;", "'")
+    .replaceAll("&aacute;", "a")
+    .replaceAll("&iacute;", "i")
+    .replaceAll(".&rdquo;", "s")
+    .replaceAll("&shy;", "");
 
   incorrectAnswer2.addEventListener("click", () => {
     playIncorrectSound();
@@ -485,25 +499,22 @@ const renderQuestions = (questions) => {
   questionDiv.appendChild(questionTitle);
   gameContainer.append(questionDiv);
 
-  const div = document.createElement("div");
-
-  let arr = [];
-  arr.push(correctAnswerBtn);
-  arr.push(incorrectAnswer1);
-  arr.push(incorrectAnswer2);
-  arr.push(incorrectAnswer3);
-  console.log(arr);
-  var s = arr.sort(func);
-
-  function func(a, b) {
+  const btnDiv = document.createElement("div");
+  const randomBtnFunc = (a, b) => {
     return 0.5 - Math.random();
-  }
+  };
 
-  s.forEach((obj) => {
+  const btnArr = [];
+  btnArr.push(correctAnswerBtn);
+  btnArr.push(incorrectAnswer1);
+  btnArr.push(incorrectAnswer2);
+  btnArr.push(incorrectAnswer3);
+  let btnArrSorted = btnArr.sort(randomBtnFunc);
+
+  btnArrSorted.forEach((obj) => {
     questionDiv.appendChild(obj);
-    div.append(questionDiv);
-    gameContainer.append(div);
-    console.log(obj);
+    btnDiv.append(questionDiv);
+    gameContainer.append(btnDiv);
   });
 };
 

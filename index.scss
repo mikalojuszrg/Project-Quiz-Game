@@ -95,12 +95,12 @@ body {
       background-image: linear-gradient(var(--green-4), var(--dark-purple-4));
       max-width: fit-content;
       margin: 0 auto;
-      margin-top: 50px;
+      margin-top: 3.2rem;
       width: 25ch;
       animation: typing 2s steps(22), blink 0.5s step-end infinite alternate;
       white-space: nowrap;
       overflow: hidden;
-      border-right: 3px solid;
+      border-right: 0.2rem solid;
       font-family: monospace;
       font-size: 3rem;
 
@@ -128,7 +128,7 @@ body {
       flex-direction: column;
       justify-content: center;
       margin: 0 auto;
-      margin-top: 4rem;
+      margin-top: 7rem;
       gap: 1rem;
       width: 20rem;
       height: 30%;
@@ -181,6 +181,10 @@ body {
       margin: 0 auto;
       margin-top: 1rem;
       padding: 1rem;
+
+      @media screen and (max-width: 768px) {
+        margin: 2rem 2rem 0rem 2rem;
+      }
     }
 
     #score-container {
@@ -215,13 +219,22 @@ body {
 
       .button-styles {
         background-image: linear-gradient(var(--green-4), var(--dark-purple-4));
-        margin-top: 20px;
-        margin-right: 15px;
+        margin-top: 0.5rem;
+        margin-right: 0.7rem;
         font-size: 1rem;
       }
 
       @media screen and (max-width: 768px) {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
+        margin-top: -4rem;
+
+        p {
+          margin: 0;
+        }
+
+        h2 {
+          margin-top: 1rem;
+        }
       }
     }
 
@@ -239,6 +252,10 @@ body {
           var(--green-3) 50%,
           var(--green-2) 100%
         );
+
+        @media screen and (max-width: 768px) {
+          margin: 0 2rem 0 2rem;
+        }
       }
 
       #score-form {

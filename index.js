@@ -13,15 +13,14 @@ const hardScoreBtn = document.querySelector("#hard-score-btn");
 const homeBtn = document.querySelector("#home-btn");
 const backBtn = document.querySelector("#back-btn");
 
-const themeSound = document.querySelector("#theme-sound");
-const difficultyText = document.querySelector("#select-difficulty");
-
 const difficultyContainer = document.querySelector("#difficulty-container");
 const rulesContainer = document.querySelector("#rules-container");
 const scoreContainer = document.querySelector("#score-container");
 const gameContainer = document.querySelector("#game-container");
 const regContainer = document.querySelector("#reg-container");
 
+const themeSound = document.querySelector("#theme-sound");
+const difficultyText = document.querySelector("#select-difficulty");
 const scoreForm = document.querySelector("#score-form");
 const userScoreInfo = document.querySelector("#user-score-info");
 
@@ -303,32 +302,9 @@ const renderQuestions = (questions) => {
   timerText.style.display = "none";
   setTimer(timer);
 
-  setTimeout(() => {
-    correctAnswerBtn.style.pointerEvents = "none";
-    incorrectAnswer1.style.pointerEvents = "none";
-    incorrectAnswer2.style.pointerEvents = "none";
-    incorrectAnswer3.style.pointerEvents = "none";
-  }, 10000);
-
-  setTimeout(() => {
-    correctAnswerBtn.style.backgroundImage =
-      "linear-gradient(rgb(15, 235, 206), rgb(0, 255, 80))";
-    correctAnswerBtn.style.color = "black";
-    incorrectAnswer1.style.backgroundImage =
-      "linear-gradient(rgb(235, 111, 70), rgb(255, 0, 0))";
-    incorrectAnswer2.style.backgroundImage =
-      "linear-gradient(rgb(235, 111, 70), rgb(255, 0, 0))";
-    incorrectAnswer3.style.backgroundImage =
-      "linear-gradient(rgb(235, 111, 70), rgb(255, 0, 0))";
-    questionDiv.prepend(nextQ);
-    timer.style.display = "none";
-    endGame(index);
-  }, "12000");
-
   const userScore = document.createElement("p");
   showUserScore(userScore);
   let answersTotal = correctAnswersArr.length;
-  const levelArr = JSON.parse(localStorage.getItem("level"));
   userScore.textContent = `you've scored: ${answersTotal}`;
 
   if (questionsArr.includes(questions.question)) {
@@ -354,8 +330,6 @@ const renderQuestions = (questions) => {
   questionsArr.push(questions.question);
 
   const questionTitle = document.createElement("h2");
-  questionTitle.style.margin = "0";
-  questionTitle.style.marginRight = "10px";
   questionTitle.textContent = questions.question
     .replaceAll("&quot;", "")
     .replaceAll("&#039;", "'")
@@ -516,6 +490,28 @@ const renderQuestions = (questions) => {
     btnDiv.append(questionDiv);
     gameContainer.append(btnDiv);
   });
+
+  setTimeout(() => {
+    correctAnswerBtn.style.pointerEvents = "none";
+    incorrectAnswer1.style.pointerEvents = "none";
+    incorrectAnswer2.style.pointerEvents = "none";
+    incorrectAnswer3.style.pointerEvents = "none";
+  }, 10000);
+
+  setTimeout(() => {
+    correctAnswerBtn.style.backgroundImage =
+      "linear-gradient(rgb(15, 235, 206), rgb(0, 255, 80))";
+    correctAnswerBtn.style.color = "black";
+    incorrectAnswer1.style.backgroundImage =
+      "linear-gradient(rgb(235, 111, 70), rgb(255, 0, 0))";
+    incorrectAnswer2.style.backgroundImage =
+      "linear-gradient(rgb(235, 111, 70), rgb(255, 0, 0))";
+    incorrectAnswer3.style.backgroundImage =
+      "linear-gradient(rgb(235, 111, 70), rgb(255, 0, 0))";
+    questionDiv.prepend(nextQ);
+    timer.style.display = "none";
+    endGame(index);
+  }, "12000");
 };
 
 const getData = () => {
@@ -550,43 +546,59 @@ const getData = () => {
           return { username: value.username, score: value.score };
         });
 
-      const mediumTop = mediumLeaderbord.splice(0, 10); // TOP 10
+      const mediumTop = mediumLeaderbord.splice(0, 10);
       const easyTop = easyLeaderbord.splice(0, 10);
       const hardTop = hardLeaderbord.splice(0, 10);
 
       scoreContainer.style.display = "flex";
       scoreContainer.innerHTML = "";
 
-      const test =
+      const easyNotTopPosition =
         easyLeaderbord.findIndex(
           (element) => element.username === scoreForm[0].value
         ) + 11;
+
+      const mediumNotTopPosition =
+        mediumLeaderbord.findIndex(
+          (element) => element.username === scoreForm[0].value
+        ) + 11;
+
+      const hardNotTopPosition =
+        hardLeaderbord.findIndex(
+          (element) => element.username === scoreForm[0].value
+        ) + 11;
+
+      const p = document.createElement("p");
+      p.style.width = "22rem";
+      p.style.display = "none";
+      scoreContainer.style.padding = "1rem";
+      scoreContainer.append(p);
+
+      if (JSON.parse(localStorage.getItem("level")) === "easy") {
+        scoreContainer.append(makeOl(easyTop));
+        if (easyNotTopPosition > 10) {
+          p.style.display = "block";
+          p.textContent = `Unfortunately, you're not among top 10 players. Your position is ${easyNotTopPosition}`;
+        }
+      } else if (JSON.parse(localStorage.getItem("level")) === "medium") {
+        scoreContainer.append(makeOl(mediumTop));
+        if (easyNotTopPosition > 10) {
+          p.style.display = "block";
+          p.textContent = `Unfortunately, you're not among top 10 players. Your position is ${mediumNotTopPosition}`;
+        }
+      } else if (JSON.parse(localStorage.getItem("level")) === "hard") {
+        scoreContainer.append(makeOl(hardTop));
+        if (easyNotTopPosition > 10) {
+          p.style.display = "block";
+          p.textContent = `Unfortunately, you're not among top 10 players. Your position is ${hardNotTopPosition}`;
+        }
+      }
 
       const newGameBtn = document.createElement("button");
       newGameBtn.textContent = "New game";
       newGameBtn.addEventListener("click", () => {
         document.location.reload();
       });
-
-      const p = document.createElement("p");
-      p.textContent = `Unfortunately, you're not among top 10 players. Your position is ${test}`;
-      p.style.width = "22rem";
-      scoreContainer.append(p);
-      scoreContainer.style.padding = "1rem";
-      scoreContainer.style.width = "fit-content";
-      p.style.display = "none";
-
-      if (test > 10) {
-        p.style.display = "block";
-      }
-
-      if (JSON.parse(localStorage.getItem("level")) === "easy") {
-        scoreContainer.append(makeOl(easyTop));
-      } else if (JSON.parse(localStorage.getItem("level")) === "medium") {
-        scoreContainer.append(makeOl(mediumTop));
-      } else if (JSON.parse(localStorage.getItem("level")) === "hard") {
-        scoreContainer.append(makeOl(hardTop));
-      }
 
       if (JSON.parse(localStorage.getItem("question")).length > 0) {
         scoreContainer.append(newGameBtn);

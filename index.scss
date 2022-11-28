@@ -20,7 +20,7 @@ body {
     }
 
     @media screen and (max-width: 768px) {
-      padding: 1rem 1rem;
+      padding: 0.5rem 0.5rem;
       font-size: 2rem;
     }
   }
@@ -68,6 +68,10 @@ body {
       font-size: 1rem;
       margin-right: 0.5rem;
       float: right;
+    }
+
+    #back-btn {
+      display: none;
     }
 
     h1 {
@@ -128,7 +132,7 @@ body {
       flex-direction: column;
       justify-content: center;
       margin: 0 auto;
-      margin-top: 2rem;
+      // margin-top: 2rem;
       gap: 1rem;
       width: 20rem;
 
@@ -150,9 +154,7 @@ body {
     #rules-container {
       display: none;
       flex-direction: column;
-      // text-align: center;
       border-radius: 2rem;
-      // display: flex;
       background: linear-gradient(
         90deg,
         rgba(147, 108, 217, 1) 0%,
@@ -162,6 +164,7 @@ body {
       justify-content: center;
       width: fit-content;
       margin: 0 auto;
+      margin-top: 1rem;
       padding: 1rem;
     }
 
@@ -194,11 +197,20 @@ body {
         rgba(103, 58, 183, 1) 50%,
         rgba(151, 116, 213, 1) 100%
       );
-
       justify-content: center;
       width: 70vw;
       margin: 0 auto;
-      // padding: 2rem;
+
+      .button-styles {
+        background-image: linear-gradient(rgb(28, 143, 127), rgb(48, 33, 108));
+        margin-top: 20px;
+        margin-right: 15px;
+        font-size: 1rem;
+      }
+
+      @media screen and (max-width: 768px) {
+        font-size: 0.7rem;
+      }
     }
 
     #reg-container {

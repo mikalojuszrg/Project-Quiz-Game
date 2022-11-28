@@ -295,29 +295,13 @@ const playIncorrectSound = () => {
 };
 
 const renderQuestions = (questions) => {
+  gameContainer.innerHTML = "";
+  const questionDiv = document.createElement("div");
+
   const timer = document.createElement("p");
   const timerText = document.createElement("p");
   timerText.style.display = "none";
   setTimer(timer);
-
-  const userScore = document.createElement("p");
-  showUserScore(userScore);
-  const nextQ = document.createElement("button");
-  nextQ.style.marginTop = "20px";
-  nextQ.style.marginRight = "15px";
-  nextQ.style.fontSize = "1rem";
-  nextQ.textContent = `Next question`;
-  nextQ.addEventListener("click", () => {
-    getNextQuestionFast(questions);
-  });
-
-  if (questionsArr.includes(questions.question)) {
-    console.log("ALERREAOKRAEOROAEKRKEOROAEORK");
-    getNextQuestionFast(questions);
-    questionIndexText.textContent = `Question number: ${index - 1}`;
-  }
-
-  console.log(questionsArr);
 
   setTimeout(() => {
     correctAnswerBtn.style.pointerEvents = "none";
@@ -341,6 +325,23 @@ const renderQuestions = (questions) => {
     endGame(index);
   }, "12000");
 
+  const userScore = document.createElement("p");
+  showUserScore(userScore);
+  const nextQ = document.createElement("button");
+  nextQ.style.marginTop = "20px";
+  nextQ.style.marginRight = "15px";
+  nextQ.style.fontSize = "1rem";
+  nextQ.textContent = `Next question`;
+  nextQ.addEventListener("click", () => {
+    getNextQuestionFast(questions);
+  });
+
+  if (questionsArr.includes(questions.question)) {
+    console.log("ALERREAOKRAEOROAEKRKEOROAEORK");
+    getNextQuestionFast(questions);
+    questionIndexText.textContent = `Question number: ${index - 1}`;
+  }
+
   let answersTotal = correctAnswersArr.length;
   const levelArr = JSON.parse(localStorage.getItem("level"));
   userScore.textContent = `you've scored: ${answersTotal}`;
@@ -354,9 +355,7 @@ const renderQuestions = (questions) => {
   localStorage.setItem("level", JSON.stringify(questions.difficulty));
   questionsArr.push(questions.question);
 
-  const test = localStorage.getItem("level");
-  gameContainer.innerHTML = "";
-  const questionDiv = document.createElement("div");
+  // const test = localStorage.getItem("level");
 
   const questionTitle = document.createElement("h2");
   questionTitle.style.margin = "0";

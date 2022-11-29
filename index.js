@@ -217,7 +217,6 @@ const setTimer = (elem) => {
     }
   }
   countdown();
-  console.log(timeLeft);
 };
 
 const getNextQuestionFast = (obj) => {
@@ -278,9 +277,7 @@ const saveScore = () => {
         return response.json();
       }
     })
-    .then((data) => {
-      console.log(data);
-    });
+    .then((data) => {});
 };
 
 const playCorrectSound = () => {
@@ -291,6 +288,20 @@ const playCorrectSound = () => {
 const playIncorrectSound = () => {
   let audio = new Audio("audio/wrong-answer-126515.mp3");
   audio.play();
+};
+
+const fixCharacters = (str) => {
+  return str
+    .replaceAll("&quot;", "")
+    .replaceAll("&#039;", "'")
+    .replaceAll("&ldquo;", "")
+    .replaceAll("&rsquo;", "'")
+    .replaceAll("&aacute;", "a")
+    .replaceAll("&iacute;", "i")
+    .replaceAll(".&rdquo;", "s")
+    .replaceAll("&shy;", "")
+    .replaceAll("&hellip;&rdquo;", "")
+    .replaceAll("&oacute;", "o");
 };
 
 const renderQuestions = (questions) => {
@@ -308,7 +319,6 @@ const renderQuestions = (questions) => {
   userScore.textContent = `you've scored: ${answersTotal}`;
 
   if (questionsArr.includes(questions.question)) {
-    console.log("ALERREAOKRAEOROAEKRKEOROAEORK");
     getNextQuestionFast(questions);
     questionIndexText.textContent = `Question number: ${index - 1}`;
   }
@@ -330,17 +340,7 @@ const renderQuestions = (questions) => {
   questionsArr.push(questions.question);
 
   const questionTitle = document.createElement("h2");
-  questionTitle.textContent = questions.question
-    .replaceAll("&quot;", "")
-    .replaceAll("&#039;", "'")
-    .replaceAll("&ldquo;", "")
-    .replaceAll("&rsquo;", "'")
-    .replaceAll("&aacute;", "a")
-    .replaceAll("&iacute;", "i")
-    .replaceAll(".&rdquo;", "s")
-    .replaceAll("&shy;", "")
-    .replaceAll("&hellip;&rdquo;", "")
-    .replaceAll("&oacute;", "o");
+  questionTitle.textContent = fixCharacters(questions.question);
 
   const questionIndexText = document.createElement("p");
   questionIndexText.textContent = `Question number: ${index}`;
@@ -348,17 +348,8 @@ const renderQuestions = (questions) => {
   const correctAnswerBtn = document.createElement("button");
   correctAnswerBtn.setAttribute("id", (id = 1));
   correctAnswerBtn.setAttribute("class", "button-styles");
-  correctAnswerBtn.textContent = questions.correct_answer
-    .replaceAll("&quot;", "")
-    .replaceAll("&#039;", "'")
-    .replaceAll("&ldquo;", "")
-    .replaceAll("&rsquo;", "'")
-    .replaceAll("&aacute;", "a")
-    .replaceAll("&iacute;", "i")
-    .replaceAll(".&rdquo;", "s")
-    .replaceAll("&shy;", "")
-    .replaceAll("&hellip;&rdquo;", "")
-    .replaceAll("&oacute;", "o");
+  const asd = questions.correct_answer;
+  correctAnswerBtn.textContent = fixCharacters(questions.correct_answer);
 
   correctAnswerBtn.addEventListener("click", () => {
     playCorrectSound();
@@ -380,17 +371,7 @@ const renderQuestions = (questions) => {
   const incorrectAnswer1 = document.createElement("button");
   incorrectAnswer1.setAttribute("id", (id = 2));
   incorrectAnswer1.setAttribute("class", "button-styles");
-  incorrectAnswer1.textContent = questions.incorrect_answers[0]
-    .replaceAll("&quot;", "")
-    .replaceAll("&#039;", "'")
-    .replaceAll("&ldquo;", "")
-    .replaceAll("&rsquo;", "'")
-    .replaceAll("&aacute;", "a")
-    .replaceAll("&iacute;", "i")
-    .replaceAll(".&rdquo;", "s")
-    .replaceAll("&shy;", "")
-    .replaceAll("&hellip;&rdquo;", "")
-    .replaceAll("&oacute;", "o");
+  incorrectAnswer1.textContent = fixCharacters(questions.incorrect_answers[0]);
 
   incorrectAnswer1.addEventListener("click", () => {
     playIncorrectSound();
@@ -415,17 +396,7 @@ const renderQuestions = (questions) => {
   const incorrectAnswer2 = document.createElement("button");
   incorrectAnswer2.setAttribute("class", "button-styles");
   incorrectAnswer2.setAttribute("id", (id = 3));
-  incorrectAnswer2.textContent = questions.incorrect_answers[1]
-    .replaceAll("&quot;", "")
-    .replaceAll("&#039;", "'")
-    .replaceAll("&ldquo;", "")
-    .replaceAll("&rsquo;", "'")
-    .replaceAll("&aacute;", "a")
-    .replaceAll("&iacute;", "i")
-    .replaceAll(".&rdquo;", "s")
-    .replaceAll("&shy;", "")
-    .replaceAll("&hellip;&rdquo;", "")
-    .replaceAll("&oacute;", "o");
+  incorrectAnswer2.textContent = fixCharacters(questions.incorrect_answers[1]);
 
   incorrectAnswer2.addEventListener("click", () => {
     playIncorrectSound();
@@ -450,17 +421,7 @@ const renderQuestions = (questions) => {
   const incorrectAnswer3 = document.createElement("button");
   incorrectAnswer3.setAttribute("class", "button-styles");
   incorrectAnswer3.setAttribute("id", (id = 4));
-  incorrectAnswer3.textContent = questions.incorrect_answers[2]
-    .replaceAll("&quot;", "")
-    .replaceAll("&#039;", "'")
-    .replaceAll("&ldquo;", "")
-    .replaceAll("&rsquo;", "'")
-    .replaceAll("&aacute;", "a")
-    .replaceAll("&iacute;", "i")
-    .replaceAll(".&rdquo;", "s")
-    .replaceAll("&shy;", "")
-    .replaceAll("&hellip;&rdquo;", "")
-    .replaceAll("&oacute;", "o");
+  incorrectAnswer3.textContent = fixCharacters(questions.incorrect_answers[2]);
 
   incorrectAnswer3.addEventListener("click", () => {
     playIncorrectSound();

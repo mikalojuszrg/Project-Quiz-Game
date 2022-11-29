@@ -81,7 +81,7 @@ body header h1 {
 }
 @media screen and (max-width: 768px) {
   body header h1 {
-    font-size: 1.5rem;
+    font-size: 1.7rem;
   }
 }
 @-webkit-keyframes typing {
@@ -173,6 +173,11 @@ body main #score-container {
   margin: 0 auto;
   margin-top: -1rem;
 }
+@media screen and (max-width: 768px) {
+  body main #score-container {
+    margin-top: -2rem;
+  }
+}
 body main #game-container {
   text-align: center;
   border-radius: 2rem;
@@ -187,6 +192,15 @@ body main #game-container .button-styles {
   margin-top: 0.5rem;
   margin-right: 0.7rem;
   font-size: 1rem;
+}
+body main #game-container .text-styles {
+  font-size: 1rem;
+  background-color: green;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 0.5rem;
 }
 @media screen and (max-width: 768px) {
   body main #game-container {

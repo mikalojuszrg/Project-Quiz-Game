@@ -212,7 +212,7 @@ const setTimer = (elem) => {
       clearInterval(timerId);
       elem.textContent = "You've run out of time 🥲";
     } else {
-      elem.textContent = `Time left: ${timeLeft}`;
+      elem.textContent = `Time left: ${timeLeft} ⏰`;
       timeLeft--;
     }
   }
@@ -344,11 +344,11 @@ const renderQuestions = (questions) => {
 
   const questionIndexText = document.createElement("p");
   questionIndexText.textContent = `Question number: ${index}`;
+  questionIndexText.setAttribute("class", "text-styles");
 
   const correctAnswerBtn = document.createElement("button");
   correctAnswerBtn.setAttribute("id", (id = 1));
   correctAnswerBtn.setAttribute("class", "button-styles");
-  const asd = questions.correct_answer;
   correctAnswerBtn.textContent = fixCharacters(questions.correct_answer);
 
   correctAnswerBtn.addEventListener("click", () => {
@@ -460,7 +460,7 @@ const renderQuestions = (questions) => {
   btnArr.push(incorrectAnswer1);
   btnArr.push(incorrectAnswer2);
   btnArr.push(incorrectAnswer3);
-  let btnArrSorted = btnArr.sort(randomBtnFunc);
+  const btnArrSorted = btnArr.sort(randomBtnFunc);
 
   btnArrSorted.forEach((obj) => {
     questionDiv.appendChild(obj);
@@ -526,6 +526,9 @@ const getData = () => {
       const mediumTop = mediumLeaderbord.splice(0, 10);
       const easyTop = easyLeaderbord.splice(0, 10);
       const hardTop = hardLeaderbord.splice(0, 10);
+
+      console.log(easyLeaderbord);
+      console.log(easyTop);
 
       scoreContainer.style.display = "flex";
       scoreContainer.innerHTML = "";

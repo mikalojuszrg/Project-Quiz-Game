@@ -171,6 +171,7 @@ body main #score-container {
   width: -moz-fit-content;
   width: fit-content;
   margin: 0 auto;
+  margin-top: -1rem;
 }
 body main #game-container {
   text-align: center;

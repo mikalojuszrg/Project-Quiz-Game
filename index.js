@@ -78,20 +78,6 @@ displayRulesBtn.addEventListener("click", () => {
   }
 });
 
-newGameBtn.addEventListener("click", () => {
-  rulesContainer.style.display = "none";
-  displayRulesBtn.style.display = "none";
-  scoreContainer.style.display = "none";
-  displayScoreBtn.style.display = "none";
-  newGameBtn.style.display = "none";
-  backBtn.style.display = "block";
-  easyLevelBtn.style.display = "block";
-  mediumLevelBtn.style.display = "block";
-  hardLevelBtn.style.display = "block";
-  difficultyText.style.display = "block";
-  localStorage.clear();
-});
-
 displayScoreBtn.addEventListener("click", () => {
   scoreContainer.style.display = "none";
   displayRulesBtn.style.display = "none";
@@ -112,13 +98,6 @@ easyScoreBtn.addEventListener("click", () => {
   hardScoreBtn.style.display = "none";
 });
 
-easyLevelBtn.addEventListener("click", () => {
-  getEasyQuestions();
-  gameContainer.style.padding = "2rem";
-  difficultyContainer.style.display = "none";
-  backBtn.style.display = "none";
-});
-
 mediumScoreBtn.addEventListener("click", () => {
   localStorage.setItem("level", `"medium"`);
   getData();
@@ -127,19 +106,40 @@ mediumScoreBtn.addEventListener("click", () => {
   hardScoreBtn.style.display = "none";
 });
 
-mediumLevelBtn.addEventListener("click", () => {
-  getMediumQuestions();
-  gameContainer.style.padding = "2rem";
-  difficultyContainer.style.display = "none";
-  backBtn.style.display = "none";
-});
-
 hardScoreBtn.addEventListener("click", () => {
   localStorage.setItem("level", `"hard"`);
   getData();
   easyScoreBtn.style.display = "none";
   mediumScoreBtn.style.display = "none";
   hardScoreBtn.style.display = "none";
+});
+
+newGameBtn.addEventListener("click", () => {
+  rulesContainer.style.display = "none";
+  displayRulesBtn.style.display = "none";
+  scoreContainer.style.display = "none";
+  displayScoreBtn.style.display = "none";
+  newGameBtn.style.display = "none";
+  backBtn.style.display = "block";
+  easyLevelBtn.style.display = "block";
+  mediumLevelBtn.style.display = "block";
+  hardLevelBtn.style.display = "block";
+  difficultyText.style.display = "block";
+  localStorage.clear();
+});
+
+easyLevelBtn.addEventListener("click", () => {
+  getEasyQuestions();
+  gameContainer.style.padding = "2rem";
+  difficultyContainer.style.display = "none";
+  backBtn.style.display = "none";
+});
+
+mediumLevelBtn.addEventListener("click", () => {
+  getMediumQuestions();
+  gameContainer.style.padding = "2rem";
+  difficultyContainer.style.display = "none";
+  backBtn.style.display = "none";
 });
 
 hardLevelBtn.addEventListener("click", () => {
@@ -349,16 +349,16 @@ const renderQuestions = (questions) => {
   correctAnswerBtn.setAttribute("id", (id = 1));
   correctAnswerBtn.setAttribute("class", "button-styles");
   correctAnswerBtn.textContent = questions.correct_answer
-  .replaceAll("&quot;", "")
-  .replaceAll("&#039;", "'")
-  .replaceAll("&ldquo;", "")
-  .replaceAll("&rsquo;", "'")
-  .replaceAll("&aacute;", "a")
-  .replaceAll("&iacute;", "i")
-  .replaceAll(".&rdquo;", "s")
-  .replaceAll("&shy;", "")
-  .replaceAll("&hellip;&rdquo;", "")
-  .replaceAll("&oacute;", "o");
+    .replaceAll("&quot;", "")
+    .replaceAll("&#039;", "'")
+    .replaceAll("&ldquo;", "")
+    .replaceAll("&rsquo;", "'")
+    .replaceAll("&aacute;", "a")
+    .replaceAll("&iacute;", "i")
+    .replaceAll(".&rdquo;", "s")
+    .replaceAll("&shy;", "")
+    .replaceAll("&hellip;&rdquo;", "")
+    .replaceAll("&oacute;", "o");
 
   correctAnswerBtn.addEventListener("click", () => {
     playCorrectSound();
@@ -381,16 +381,16 @@ const renderQuestions = (questions) => {
   incorrectAnswer1.setAttribute("id", (id = 2));
   incorrectAnswer1.setAttribute("class", "button-styles");
   incorrectAnswer1.textContent = questions.incorrect_answers[0]
-  .replaceAll("&quot;", "")
-  .replaceAll("&#039;", "'")
-  .replaceAll("&ldquo;", "")
-  .replaceAll("&rsquo;", "'")
-  .replaceAll("&aacute;", "a")
-  .replaceAll("&iacute;", "i")
-  .replaceAll(".&rdquo;", "s")
-  .replaceAll("&shy;", "")
-  .replaceAll("&hellip;&rdquo;", "")
-  .replaceAll("&oacute;", "o");
+    .replaceAll("&quot;", "")
+    .replaceAll("&#039;", "'")
+    .replaceAll("&ldquo;", "")
+    .replaceAll("&rsquo;", "'")
+    .replaceAll("&aacute;", "a")
+    .replaceAll("&iacute;", "i")
+    .replaceAll(".&rdquo;", "s")
+    .replaceAll("&shy;", "")
+    .replaceAll("&hellip;&rdquo;", "")
+    .replaceAll("&oacute;", "o");
 
   incorrectAnswer1.addEventListener("click", () => {
     playIncorrectSound();
@@ -416,16 +416,16 @@ const renderQuestions = (questions) => {
   incorrectAnswer2.setAttribute("class", "button-styles");
   incorrectAnswer2.setAttribute("id", (id = 3));
   incorrectAnswer2.textContent = questions.incorrect_answers[1]
-  .replaceAll("&quot;", "")
-  .replaceAll("&#039;", "'")
-  .replaceAll("&ldquo;", "")
-  .replaceAll("&rsquo;", "'")
-  .replaceAll("&aacute;", "a")
-  .replaceAll("&iacute;", "i")
-  .replaceAll(".&rdquo;", "s")
-  .replaceAll("&shy;", "")
-  .replaceAll("&hellip;&rdquo;", "")
-  .replaceAll("&oacute;", "o");
+    .replaceAll("&quot;", "")
+    .replaceAll("&#039;", "'")
+    .replaceAll("&ldquo;", "")
+    .replaceAll("&rsquo;", "'")
+    .replaceAll("&aacute;", "a")
+    .replaceAll("&iacute;", "i")
+    .replaceAll(".&rdquo;", "s")
+    .replaceAll("&shy;", "")
+    .replaceAll("&hellip;&rdquo;", "")
+    .replaceAll("&oacute;", "o");
 
   incorrectAnswer2.addEventListener("click", () => {
     playIncorrectSound();
@@ -451,16 +451,16 @@ const renderQuestions = (questions) => {
   incorrectAnswer3.setAttribute("class", "button-styles");
   incorrectAnswer3.setAttribute("id", (id = 4));
   incorrectAnswer3.textContent = questions.incorrect_answers[2]
-  .replaceAll("&quot;", "")
-  .replaceAll("&#039;", "'")
-  .replaceAll("&ldquo;", "")
-  .replaceAll("&rsquo;", "'")
-  .replaceAll("&aacute;", "a")
-  .replaceAll("&iacute;", "i")
-  .replaceAll(".&rdquo;", "s")
-  .replaceAll("&shy;", "")
-  .replaceAll("&hellip;&rdquo;", "")
-  .replaceAll("&oacute;", "o");
+    .replaceAll("&quot;", "")
+    .replaceAll("&#039;", "'")
+    .replaceAll("&ldquo;", "")
+    .replaceAll("&rsquo;", "'")
+    .replaceAll("&aacute;", "a")
+    .replaceAll("&iacute;", "i")
+    .replaceAll(".&rdquo;", "s")
+    .replaceAll("&shy;", "")
+    .replaceAll("&hellip;&rdquo;", "")
+    .replaceAll("&oacute;", "o");
 
   incorrectAnswer3.addEventListener("click", () => {
     playIncorrectSound();

@@ -235,7 +235,7 @@ body main #game-container {
   justify-content: center;
   width: 70vw;
   margin: 0 auto;
-  margin-top: -4rem;
+  margin-top: -6rem;
 }
 body main #game-container .button-styles {
   background-image: linear-gradient(var(--green-4), var(--dark-purple-4));

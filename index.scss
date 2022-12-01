@@ -258,12 +258,14 @@ body {
       justify-content: center;
       width: 70vw;
       margin: 0 auto;
+      margin-top: -4rem;
 
       .button-styles {
         background-image: linear-gradient(var(--green-4), var(--dark-purple-4));
         margin-top: 0.5rem;
         margin-right: 0.7rem;
         font-size: 1rem;
+        padding: 0.7rem;
       }
 
       .text-styles {
@@ -272,12 +274,6 @@ body {
         width: fit-content;
         margin: 0 auto;
         padding: 0.5rem;
-      }
-
-      @media screen and (max-width: 1024px) {
-        button {
-          padding: 0.4rem;
-        }
       }
 
       @media screen and (max-width: 768px) {

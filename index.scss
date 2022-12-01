@@ -172,11 +172,18 @@ body {
       gap: 1rem;
       width: 20rem;
 
-      #easy-level-btn,
-      #medium-level-btn,
-      #hard-level-btn,
       #select-difficulty {
         display: none;
+      }
+
+      #easy-level-btn,
+      #medium-level-btn,
+      #hard-level-btn {
+        display: none;
+        @media screen and (max-width: 480px) {
+          width: 15rem;
+          margin: 0 auto;
+        }
       }
 
       #select-difficulty {
@@ -230,6 +237,7 @@ body {
 
       @media screen and (max-width: 768px) {
         margin-top: -2rem;
+        width: 20rem;
       }
 
       @media screen and (max-width: 768px) {
@@ -264,6 +272,12 @@ body {
         width: fit-content;
         margin: 0 auto;
         padding: 0.5rem;
+      }
+
+      @media screen and (max-width: 1024px) {
+        button {
+          padding: 0.4rem;
+        }
       }
 
       @media screen and (max-width: 768px) {

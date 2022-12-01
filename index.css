@@ -158,11 +158,21 @@ body main #difficulty-container {
   gap: 1rem;
   width: 20rem;
 }
-body main #difficulty-container #easy-level-btn,
-body main #difficulty-container #medium-level-btn,
-body main #difficulty-container #hard-level-btn,
 body main #difficulty-container #select-difficulty {
   display: none;
+}
+body main #difficulty-container #easy-level-btn,
+body main #difficulty-container #medium-level-btn,
+body main #difficulty-container #hard-level-btn {
+  display: none;
+}
+@media screen and (max-width: 480px) {
+  body main #difficulty-container #easy-level-btn,
+body main #difficulty-container #medium-level-btn,
+body main #difficulty-container #hard-level-btn {
+    width: 15rem;
+    margin: 0 auto;
+  }
 }
 body main #difficulty-container #select-difficulty {
   font-size: 1.5rem;
@@ -209,6 +219,7 @@ body main #score-container {
 @media screen and (max-width: 768px) {
   body main #score-container {
     margin-top: -2rem;
+    width: 20rem;
   }
 }
 @media screen and (max-width: 768px) {
@@ -239,6 +250,11 @@ body main #game-container .text-styles {
   width: fit-content;
   margin: 0 auto;
   padding: 0.5rem;
+}
+@media screen and (max-width: 1024px) {
+  body main #game-container button {
+    padding: 0.4rem;
+  }
 }
 @media screen and (max-width: 768px) {
   body main #game-container {

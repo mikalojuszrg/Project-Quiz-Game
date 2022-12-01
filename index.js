@@ -527,9 +527,6 @@ const getData = () => {
       const easyTop = easyLeaderbord.splice(0, 10);
       const hardTop = hardLeaderbord.splice(0, 10);
 
-      console.log(easyLeaderbord);
-      console.log(easyTop);
-
       scoreContainer.style.display = "flex";
       scoreContainer.innerHTML = "";
 
@@ -562,13 +559,13 @@ const getData = () => {
         }
       } else if (JSON.parse(localStorage.getItem("level")) === "medium") {
         scoreContainer.append(makeOl(mediumTop));
-        if (easyNotTopPosition > 10) {
+        if (mediumNotTopPosition > 10) {
           p.style.display = "block";
           p.textContent = `Unfortunately, you're not among top 10 players. Your position is ${mediumNotTopPosition}`;
         }
       } else if (JSON.parse(localStorage.getItem("level")) === "hard") {
         scoreContainer.append(makeOl(hardTop));
-        if (easyNotTopPosition > 10) {
+        if (hardNotTopPosition > 10) {
           p.style.display = "block";
           p.textContent = `Unfortunately, you're not among top 10 players. Your position is ${hardNotTopPosition}`;
         }
